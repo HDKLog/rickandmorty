@@ -5,6 +5,7 @@ protocol CharactersListViewModeling: ObservableObject {
     var viewState: CharactersListViewState { get }
 
     func onViewAppear()
+    func onCharacterAppear(id: Int)
 }
 
 final class CharactersListViewModel: CharactersListViewModeling {
@@ -13,7 +14,8 @@ final class CharactersListViewModel: CharactersListViewModeling {
 
     private let service: CharactersListServicing
     private let router: CharactersListRouting?
-    private var page: Int = 1
+    private var currentPageInfo: CharactersListPage.Info? = nil
+    private var nextPage: Int = 1
 
     init(service: CharactersListServicing, router: CharactersListRouting? = nil) {
         self.service = service
@@ -24,15 +26,25 @@ final class CharactersListViewModel: CharactersListViewModeling {
         loadNextPage()
     }
 
-    func loadNextPage() {
+    func onCharacterAppear(id: Int) {
+        guard viewState.characters.last?.id == id,
+              currentPageInfo?.next != nil
+        else { return }
+        
+        loadNextPage()
+
+    }
+
+    private func loadNextPage() {
         service
-            .getsCharactersListPage(page: page)
+            .getsCharactersListPage(page: nextPage)
             .catch{ error in
                 print("Service error: \(error)")
                 return Empty<CharactersListPage, Never>(completeImmediately: true).eraseToAnyPublisher()
             }
             .compactMap { [weak self] listPage in
-                self?.page += listPage.info.next != nil ? 1 : 0
+                self?.currentPageInfo = listPage.info
+                self?.nextPage += 1
                 return self?.viewState.withState(newViewState: .loaded(listPage.viewStateCharacters))
             }
             .assign(to: &$viewState)

@@ -7,14 +7,19 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
         List {
             Section(header:header, footer: footer) {
                 ForEach(viewModel.viewState.characters) { character in
-                    CharactersListRow(characterName: character.name,
-                                      characterImage: character.image)
+                    CharactersListRow(
+                        characterName: character.name,
+                        characterImage: character.image
+                    ).onAppear {
+                        viewModel.onCharacterAppear(id: character.id)
+                    }
                 }
             }
 
         }
         .listStyle(.plain)
         .navigationBarTitle("Characters")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform:viewModel.onViewAppear)
     }
 
