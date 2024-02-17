@@ -29,10 +29,10 @@ struct RouterView: View {
 }
 extension RouterView: CharactersListRouting, CharactersDetailsRouting {
 
-    func goBack() {
+    public func goBack() {
         self.endpoint.removeLast()
     }
-    func routeToCharacterDetails(id: Int) {
+    public func routeToCharacterDetails(id: Int) {
         self.endpoint.append(.charactersDetails(id))
     }
 

@@ -25,4 +25,11 @@ final class Service: CharactersListServicing, CharactersDetailsServicing {
             .decode(type: CharactersListPage.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
     }
+
+    public func getsCharacter(characterId: Int) -> AnyPublisher<CharactersListPage.Character, Error> {
+        let url = baseUrl.appendingPathComponent("character").appendingPathComponent("/\(characterId)")
+        return request(url: url)
+            .decode(type: CharactersListPage.Character.self, decoder: JSONDecoder())
+            .eraseToAnyPublisher()
+    }
 }
