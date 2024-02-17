@@ -3,6 +3,7 @@ import SwiftUI
 struct RouterView: View {
     enum NavigationEndpoint: Hashable {
         case list
+        case charactersDetails(Int)
     }
 
     @State var endpoint: [NavigationEndpoint] = []
@@ -21,13 +22,18 @@ struct RouterView: View {
         switch endpoint {
         case .list:
             CharactersListView(viewModel: CharactersListViewModel(service: service, router: self))
+        case .charactersDetails(let id):
+            CharactersDetailsView(viewModel: CharactersDetailsViewModel(service: service, router: self, characterId: id))
         }
     }
 }
-extension RouterView: CharactersListRouting {
+extension RouterView: CharactersListRouting, CharactersDetailsRouting {
 
     func goBack() {
         self.endpoint.removeLast()
+    }
+    func routeToCharacterDetails(id: Int) {
+        self.endpoint.append(.charactersDetails(id))
     }
 
 }

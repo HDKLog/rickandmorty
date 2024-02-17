@@ -1,7 +1,7 @@
 import Foundation
 import Combine
 
-final class Service: CharactersListServicing {
+final class Service: CharactersListServicing, CharactersDetailsServicing {
 
 
     private var baseUrl = URL(string: "https://rickandmortyapi.com/api")!

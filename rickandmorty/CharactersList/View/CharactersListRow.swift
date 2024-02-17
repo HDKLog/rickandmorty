@@ -26,6 +26,8 @@ struct CharactersListRow: View {
             Text(characterName)
                 .font(.headline)
                 .padding(.trailing, 10.0)
+            Spacer()
         }
+        .contentShape(Rectangle())
     }
 }

@@ -6,6 +6,7 @@ protocol CharactersListViewModeling: ObservableObject {
 
     func onViewAppear()
     func onCharacterAppear(id: Int)
+    func onCharacterTap(id: Int)
 }
 
 final class CharactersListViewModel: CharactersListViewModeling {
@@ -33,6 +34,10 @@ final class CharactersListViewModel: CharactersListViewModeling {
         
         loadNextPage()
 
+    }
+
+    func onCharacterTap(id: Int) {
+        router?.routeToCharacterDetails(id: id)
     }
 
     private func loadNextPage() {

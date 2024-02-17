@@ -10,7 +10,10 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
                     CharactersListRow(
                         characterName: character.name,
                         characterImage: character.image
-                    ).onAppear {
+                    ).onTapGesture {
+                        viewModel.onCharacterTap(id: character.id)
+                    }
+                    .onAppear {
                         viewModel.onCharacterAppear(id: character.id)
                     }
                 }

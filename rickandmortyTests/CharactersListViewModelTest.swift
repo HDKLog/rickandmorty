@@ -19,6 +19,12 @@ final class CharactersListViewModelTest: XCTestCase {
 
     final class Router: CharactersListRouting {
 
+        var routeToCharacterDetailsCalls: Int = 0
+        var routeToCharacterDetailsClosure: (Int) ->  Void = { _ in }
+        func routeToCharacterDetails(id: Int) {
+            routeToCharacterDetailsCalls += 1
+            routeToCharacterDetailsClosure(id)
+        }
     }
 
     var cancellables:[AnyCancellable] = []
@@ -196,6 +202,45 @@ final class CharactersListViewModelTest: XCTestCase {
         sut.onCharacterAppear(id: CharactersListPage.mockLast.viewStateCharacters.last?.id ?? 0)
 
         XCTAssertEqual(service.getsCharactersListPageCalls, 2)
+    }
+
+    func test_charactersListViewModel_onCharacterTap_routeToCharacterDetailsOnce() {
+
+        let service = Service()
+        let router = Router()
+
+        let sut = makeSut(service: service, router: router)
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        router.routeToCharacterDetailsClosure = { _ in
+            expectation.fulfill()
+        }
+
+        sut.onCharacterTap(id: CharactersListPage.mockFirst.viewStateCharacters.first?.id ?? 0)
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertEqual(router.routeToCharacterDetailsCalls, 1)
+    }
+
+    func test_charactersListViewModel_onCharacterTap_routeToCharacterDetailsWithCorrectId() {
+
+        let service = Service()
+        let router = Router()
+
+        var resultId: Int? = nil
+
+        let sut = makeSut(service: service, router: router)
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        router.routeToCharacterDetailsClosure = { characterId in
+            resultId = characterId
+            expectation.fulfill()
+        }
+
+        sut.onCharacterTap(id: CharactersListPage.mockFirst.viewStateCharacters.first?.id ?? 0)
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertEqual(resultId, CharactersListPage.mockFirst.viewStateCharacters.first?.id)
     }
 }
 
