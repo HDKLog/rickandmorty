@@ -88,6 +88,38 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
         XCTAssertEqual(sut.viewState.character, .mock)
     }
+
+    func test_charactersListViewModel_onViewAppear_setCorrectViewState() {
+        let service = Service()
+        let characterId: Int = 0
+        let sut = makeSut(service: service, characterId: characterId)
+
+        service.getsCharacterClosure = {_ in
+            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        sut.$viewState.sink { _ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout: 2)
+
+        XCTAssertEqual(sut.viewState.viewState, .characterLoaded(.mock))
+    }
+
+    func test_charactersListViewModel_onGoBack_navigatesBackOnce() {
+        let service = Service()
+        let router = Router()
+        let characterId: Int = 0
+        let sut = makeSut(service: service, router: router, characterId: characterId)
+
+        sut.onGoBack()
+
+        XCTAssertEqual(router.goBackCalls, 1)
+    }
 }
 
 extension CharactersListPage.Character {

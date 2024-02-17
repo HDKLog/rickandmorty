@@ -4,7 +4,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
     @ObservedObject var viewModel: T
 
     var body: some View {
-        ScrollView {
+        ScrollView (.vertical) {
             VStack {
                 AsyncImage(url: URL(string: viewModel.viewState.character.image)) { phase in
 
@@ -18,7 +18,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                     default:
                         Image(systemName: "person")
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
+                            .aspectRatio(contentMode: .fit)
                             .frame(width: 300, height: 300)
                             .clipShape(RoundedRectangle(cornerRadius: 25))
                     }
@@ -66,7 +66,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                     Spacer()
                 }
                 HStack {
-                    VStack {
+                    LazyVStack {
                         ForEach(viewModel.viewState.character.episode) { episode in
                             Text("\(episode.id)")
                         }
@@ -75,10 +75,23 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
             }
             .padding(30)
         }
+        .scrollIndicators(.hidden)
         .listStyle(.plain)
         .navigationBarTitle("Character Details")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .navigationBarItems(leading: btnBack)
         .onAppear(perform:viewModel.onViewAppear)
+    }
+
+    var btnBack : some View {
+        Button(action:viewModel.onGoBack) {
+            HStack {
+                Image(systemName: "chevron.left")
+                    .aspectRatio(contentMode: .fit)
+                Text("Go back")
+            }
+        }
     }
 }
 
