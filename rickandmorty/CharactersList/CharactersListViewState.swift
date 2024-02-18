@@ -18,6 +18,7 @@ struct CharactersListViewState: Hashable {
 
     var characters: [Character] = []
     var viewState: ViewState = .initial
+    var loading: Bool { viewState == .loading }
 
     mutating func setnewViewState(newViewState: ViewState) {
         viewState = newViewState

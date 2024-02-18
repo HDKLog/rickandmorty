@@ -110,6 +110,150 @@ final class CharactersListViewModelTest: XCTestCase {
         XCTAssertEqual(service.getsCharactersListPageCalls, 1)
     }
 
+    func test_charactersListViewModel_onCharacterAppear_whenLastCharacterAppearAndNextPageIsLoading_setsLoadingViewState() {
+
+        let service = Service()
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharactersListPageClosure = {_ in
+            Just(CharactersListPage.mockFirst)
+                .setFailureType(to: Error.self)
+                .delay(for: .seconds(3), scheduler: RunLoop.main, options: .none)
+                .eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service)
+
+        sut.$viewState.dropFirst().sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout:2)
+        sut.onCharacterAppear(id: CharactersListPage.mockFirst.viewStateCharacters.last?.id ?? 0)
+
+        XCTAssertEqual(sut.viewState.viewState, .loading)
+    }
+
+    func test_charactersListViewModel_onCharacterAppear_whenLastCharacterAppearAndNextPageIsLoading_loadingIsTrue() {
+
+        let service = Service()
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharactersListPageClosure = {_ in
+            Just(CharactersListPage.mockFirst)
+                .setFailureType(to: Error.self)
+                .delay(for: .seconds(3), scheduler: RunLoop.main, options: .none)
+                .eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service)
+
+        sut.$viewState.dropFirst().sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout:2)
+        sut.onCharacterAppear(id: CharactersListPage.mockFirst.viewStateCharacters.last?.id ?? 0)
+
+        XCTAssertTrue(sut.viewState.loading)
+    }
+
+    func test_charactersListViewModel_onCharacterAppear_whenFirstCharacterAppearAndNextPageIsLoading_doesNotSetLoadingViewState() {
+
+        let service = Service()
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharactersListPageClosure = {_ in
+            Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service)
+
+        sut.$viewState.dropFirst().sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        sut.onCharacterAppear(id: CharactersListPage.mockFirst.viewStateCharacters.first?.id ?? 0)
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertNotEqual(sut.viewState.viewState, .loading)
+    }
+
+    func test_charactersListViewModel_onCharacterAppear_whenFirstCharacterAppearAndNextPageIsLoading_loadingIsFalse() {
+
+        let service = Service()
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharactersListPageClosure = {_ in
+            Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service)
+
+        sut.$viewState.dropFirst().sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        sut.onCharacterAppear(id: CharactersListPage.mockFirst.viewStateCharacters.first?.id ?? 0)
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertFalse(sut.viewState.loading)
+    }
+
+    func test_charactersListViewModel_onCharacterAppear_whenLastCharacterAppearAndItIsLastPage_doesNotSetLoadingViewState() {
+
+        let service = Service()
+        var expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharactersListPageClosure = { page in
+            Just<CharactersListPage>(page == 1 ? .mockFirst : .mockLast).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service)
+
+        sut.$viewState.sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout:2)
+        expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        sut.onCharacterAppear(id: CharactersListPage.mockFirst.viewStateCharacters.last?.id ?? 0)
+        wait(for: [expectation], timeout:2)
+        sut.onCharacterAppear(id: CharactersListPage.mockLast.viewStateCharacters.last?.id ?? 0)
+
+        XCTAssertNotEqual(sut.viewState.viewState, .loading)
+    }
+
+    func test_charactersListViewModel_onCharacterAppear_whenLastCharacterAppearAndItIsLastPage_loadingIsFalse() {
+
+        let service = Service()
+        var expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharactersListPageClosure = { page in
+            Just<CharactersListPage>(page == 1 ? .mockFirst : .mockLast).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service)
+
+        sut.$viewState.sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout:2)
+        expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        sut.onCharacterAppear(id: CharactersListPage.mockFirst.viewStateCharacters.last?.id ?? 0)
+        wait(for: [expectation], timeout:2)
+        sut.onCharacterAppear(id: CharactersListPage.mockLast.viewStateCharacters.last?.id ?? 0)
+
+        XCTAssertFalse(sut.viewState.loading)
+    }
+
     func test_charactersListViewModel_onCharacterAppear_whenLastCharacterAppear_requestsNextPage() {
 
         let service = Service()
@@ -179,7 +323,7 @@ final class CharactersListViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.characters, expectedResults)
     }
 
-    func test_charactersListViewModel_onCharacterAppear_whenLastCharacterAppear_doesNotRequestNextPageIfItIsLas() {
+    func test_charactersListViewModel_onCharacterAppear_whenLastCharacterAppearAndItIsLastPage_doesNotRequestNextPage() {
 
         let service = Service()
         var expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")

@@ -31,7 +31,16 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
     }
 
     var footer: some View {
-        VStack {}
+        VStack {
+            HStack(alignment: .center) {
+                Spacer()
+                if viewModel.viewState.loading {
+                    ProgressView()
+                }
+                Spacer()
+            }
+            .frame(minHeight: 100)
+        }
     }
 }
 

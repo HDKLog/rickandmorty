@@ -41,6 +41,7 @@ final class CharactersListViewModel: CharactersListViewModeling {
     }
 
     private func loadNextPage() {
+        viewState = viewState.withState(newViewState: .loading)
         service
             .getsCharactersListPage(page: nextPage)
             .catch{ error in
