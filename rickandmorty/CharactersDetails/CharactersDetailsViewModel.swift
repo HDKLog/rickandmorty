@@ -23,6 +23,7 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
     }
 
     func onViewAppear() {
+        setupBindings()
         loadCharacter()
     }
 
@@ -33,12 +34,35 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
     private func loadCharacter() {
         service
             .getsCharacter(characterId: characterId)
+            .receive(on: DispatchQueue.main)
             .catch { error in
                 print("Service error: \(error)")
                 return Empty<CharactersListPage.Character, Never>(completeImmediately: true).eraseToAnyPublisher()
             }
             .compactMap { [weak self] character in
                 self?.viewState.withState(newViewState: .characterLoaded(character.viewStateCharacter))
+            }
+            .assign(to: &$viewState)
+    }
+
+    private func setupBindings() {
+        $viewState
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .map(\.character.episode)
+            .filter { episodes in
+                !episodes.isEmpty
+            }
+            .compactMap { [weak self] episodes in
+                self?.service.getEpisodes(episodesIds: episodes.map(\.id))
+            }
+            .flatMap { $0 }
+            .catch { error in
+                print("Service error: \(error)")
+                return Empty<[EpisodesListPage.Episode], Never>(completeImmediately: true).eraseToAnyPublisher()
+            }
+            .compactMap { [weak self] episodes in
+                self?.viewState.withState(newViewState: .episodesLoaded(episodes.map(\.viewStateEpisode)))
             }
             .assign(to: &$viewState)
     }
@@ -66,4 +90,17 @@ extension CharactersListPage.Character {
             }
         )
     }
-} 
+}
+
+extension EpisodesListPage.Episode {
+    var viewStateEpisode: CharactersDetailsViewState.Episode {
+        CharactersDetailsViewState.Episode(id: id, name: name, characters: characters.compactMap({ urlString in
+            guard let url = URL(string: urlString ),
+                  let id = Int(url.lastPathComponent)
+            else {
+                return nil
+            }
+            return CharactersDetailsViewState.Episode.Character(id: id, url: url, image: URL(string: "https://rickandmortyapi.com/api/character/avatar/\(id).jpeg") )
+        }))
+    }
+}

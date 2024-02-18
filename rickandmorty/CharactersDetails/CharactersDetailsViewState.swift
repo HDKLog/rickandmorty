@@ -5,6 +5,7 @@ struct CharactersDetailsViewState: Hashable {
         case initial
         case loading
         case characterLoaded(Character)
+        case episodesLoaded([Episode])
     }
 
     struct Character: Identifiable, Equatable, Hashable {
@@ -25,8 +26,21 @@ struct CharactersDetailsViewState: Hashable {
         let episode: [Episode]
     }
 
+    struct Episode: Identifiable, Equatable, Hashable {
+        struct Character: Identifiable, Equatable, Hashable {
+            let id: Int
+            let url: URL
+            let image: URL?
+        }
+
+        let id: Int
+        let name: String
+        var characters: [Character]
+    }
+
     var viewState: ViewState = .initial
     var character: Character = .init(id: 0, name: "", status: "", species: "", type: "", gender: "", origin: "", location: "", image: "", episode: [])
+    var episodes: [Episode] = []
 
     mutating func setnewViewState(newViewState: ViewState) {
         viewState = newViewState
@@ -37,6 +51,8 @@ struct CharactersDetailsViewState: Hashable {
             break
         case .characterLoaded(let character):
             self.character = character
+        case .episodesLoaded(let episodes):
+            self.episodes = episodes
         }
     }
 

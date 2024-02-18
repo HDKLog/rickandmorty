@@ -88,7 +88,7 @@ final class CharactersListViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.viewState, .loaded(CharactersListViewState.Character.mocks))
     }
 
-    func test_charactersListViewModel_onCharacterAppear_whenFirstCharacterAppear_doNotRequestsNextPage() {
+    func test_charactersListViewModel_onCharacterAppear_whenFirstCharacterAppear_doesNotRequestNextPage() {
 
         let service = Service()
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
@@ -179,7 +179,7 @@ final class CharactersListViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.characters, expectedResults)
     }
 
-    func test_charactersListViewModel_onCharacterAppear_whenLastCharacterAppear_doNotRequestNextPageIfItIsLas() {
+    func test_charactersListViewModel_onCharacterAppear_whenLastCharacterAppear_doesNotRequestNextPageIfItIsLas() {
 
         let service = Service()
         var expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
@@ -204,7 +204,7 @@ final class CharactersListViewModelTest: XCTestCase {
         XCTAssertEqual(service.getsCharactersListPageCalls, 2)
     }
 
-    func test_charactersListViewModel_onCharacterTap_routeToCharacterDetailsOnce() {
+    func test_charactersListViewModel_onCharacterTap_routesToCharacterDetailsOnce() {
 
         let service = Service()
         let router = Router()
@@ -222,7 +222,7 @@ final class CharactersListViewModelTest: XCTestCase {
         XCTAssertEqual(router.routeToCharacterDetailsCalls, 1)
     }
 
-    func test_charactersListViewModel_onCharacterTap_routeToCharacterDetailsWithCorrectId() {
+    func test_charactersListViewModel_onCharacterTap_routesToCharacterDetailsWithCorrectId() {
 
         let service = Service()
         let router = Router()

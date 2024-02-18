@@ -15,7 +15,16 @@ final class CharactersDetailsViewModelTest: XCTestCase {
             getsCharacterCalls += 1
             return getsCharacterClosure(characterId)
         }
-        
+
+        var getEpisodesCalls: Int = 0
+        var getEpisodesClosure: ([Int]) ->  AnyPublisher<[EpisodesListPage.Episode], Error> = { _ in
+            Empty<[EpisodesListPage.Episode], Error>(completeImmediately: true).eraseToAnyPublisher()
+        }
+        func getEpisodes(episodesIds: [Int]) -> AnyPublisher<[EpisodesListPage.Episode], Error> {
+            getEpisodesCalls += 1
+            return getEpisodesClosure(episodesIds)
+        }
+
     }
 
     final class Router: CharactersDetailsRouting {
@@ -68,7 +77,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(requestedId, characterId)
     }
 
-    func test_charactersListViewModel_onViewAppear_setCharacterDataToViewState() {
+    func test_charactersListViewModel_onViewAppear_setsCharacterDataToViewState() {
         let service = Service()
         let characterId: Int = 0
         let sut = makeSut(service: service, characterId: characterId)
@@ -78,7 +87,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         }
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        sut.$viewState.sink { _ in
+        sut.$viewState.dropFirst().sink { _ in
             expectation.fulfill()
         }
         .store(in: &cancellables)
@@ -89,7 +98,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.character, .mock)
     }
 
-    func test_charactersListViewModel_onViewAppear_setCorrectViewState() {
+    func test_charactersListViewModel_onViewAppear_setsCorrectViewState() {
         let service = Service()
         let characterId: Int = 0
         let sut = makeSut(service: service, characterId: characterId)
@@ -99,7 +108,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         }
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        sut.$viewState.sink { _ in
+        sut.$viewState.dropFirst().sink { _ in
             expectation.fulfill()
         }
         .store(in: &cancellables)
@@ -108,6 +117,81 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         wait(for: [expectation], timeout: 2)
 
         XCTAssertEqual(sut.viewState.viewState, .characterLoaded(.mock))
+    }
+
+    func test_charactersListViewModel_onViewAppear_loadsEpisodesOnce() {
+        let service = Service()
+        let characterId: Int = 0
+        let sut = makeSut(service: service, characterId: characterId)
+
+        service.getsCharacterClosure = {_ in
+            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        service.getEpisodesClosure = {_ in
+            Just(EpisodesListPage.mock.results).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        sut.$viewState.dropFirst(2).sink { _ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout: 2)
+
+        XCTAssertEqual(service.getEpisodesCalls, 1)
+    }
+
+    func test_charactersListViewModel_onViewAppear_setsEpisodesDataToViewState() {
+        let service = Service()
+        let characterId: Int = 0
+        let sut = makeSut(service: service, characterId: characterId)
+
+        service.getsCharacterClosure = {_ in
+            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        service.getEpisodesClosure = {_ in
+            Just(EpisodesListPage.mock.results).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        sut.$viewState.dropFirst(2).sink { _ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout: 2)
+
+        XCTAssertEqual(sut.viewState.episodes, CharactersDetailsViewState.Episode.mocks)
+    }
+
+    func test_charactersListViewModel_onViewAppear_whenEpisodesLoaded_setsCorrectViewState() {
+        let service = Service()
+        let characterId: Int = 0
+        let sut = makeSut(service: service, characterId: characterId)
+
+        service.getsCharacterClosure = {_ in
+            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        service.getEpisodesClosure = {_ in
+            Just(EpisodesListPage.mock.results).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        sut.$viewState.dropFirst(2).sink { state in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout: 2)
+
+        XCTAssertEqual(sut.viewState.viewState, .episodesLoaded(CharactersDetailsViewState.Episode.mocks))
     }
 
     func test_charactersListViewModel_onGoBack_navigatesBackOnce() {
@@ -143,6 +227,25 @@ extension CharactersListPage.Character {
     }
 }
 
+extension EpisodesListPage {
+    static var mock: EpisodesListPage {
+        EpisodesListPage(info: Info(count: 1, pages: 1, next: nil, prev: nil),
+                         results: [Episode(id: 1, name: "Pilot", air_date: "December 2, 2013", episode: "S01E01",
+                                           characters: ["https://rickandmortyapi.com/api/character/1",
+                                                        "https://rickandmortyapi.com/api/character/2"],
+                                           url: "https://rickandmortyapi.com/api/episode/1", created: "2017-11-10T12:56:33.798Z"),
+                                   Episode(id: 2, name: "Lawnmower Dog", air_date: "December 9, 2013", episode: "S01E02",
+                                                     characters: ["https://rickandmortyapi.com/api/character/1",
+                                                                  "https://rickandmortyapi.com/api/character/2"],
+                                           url: "https://rickandmortyapi.com/api/episode/2", created: "2017-11-10T12:56:33.916Z"),
+                                   Episode(id: 3, name: "Anatomy Park", air_date: "December 16, 2013", episode: "S01E03",
+                                                     characters: ["https://rickandmortyapi.com/api/character/1",
+                                                                  "https://rickandmortyapi.com/api/character/2"],
+                                           url: "https://rickandmortyapi.com/api/episode/3",
+                                           created: "2017-11-10T12:56:34.022Z")])
+    }
+}
+
 extension CharactersDetailsViewState.Character {
     static var mock: CharactersDetailsViewState.Character {
         CharactersDetailsViewState.Character(id: 1,
@@ -157,5 +260,34 @@ extension CharactersDetailsViewState.Character {
                                              episode: [ .init(id: 1, url: URL(string: "https://rickandmortyapi.com/api/episode/1")!),
                                                         .init(id: 2, url: URL(string: "https://rickandmortyapi.com/api/episode/2")!),
                                                         .init(id: 3, url: URL(string: "https://rickandmortyapi.com/api/episode/3")!)])
+    }
+}
+
+extension CharactersDetailsViewState.Episode {
+    static var mocks: [CharactersDetailsViewState.Episode] {
+        [CharactersDetailsViewState.Episode(id: 1, name: "Pilot", characters: [
+            CharactersDetailsViewState.Episode.Character(id: 1,
+                      url: URL(string: "https://rickandmortyapi.com/api/character/1")!,
+                      image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")),
+            CharactersDetailsViewState.Episode.Character(id: 2,
+                      url: URL(string: "https://rickandmortyapi.com/api/character/2")!,
+                      image: URL(string: "https://rickandmortyapi.com/api/character/avatar/2.jpeg"))
+        ]),
+         CharactersDetailsViewState.Episode(id: 2, name: "Lawnmower Dog", characters: [
+            CharactersDetailsViewState.Episode.Character(id: 1,
+                       url: URL(string: "https://rickandmortyapi.com/api/character/1")!,
+                       image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")),
+            CharactersDetailsViewState.Episode.Character(id: 2,
+                       url: URL(string: "https://rickandmortyapi.com/api/character/2")!,
+                       image: URL(string: "https://rickandmortyapi.com/api/character/avatar/2.jpeg"))
+         ]),
+         CharactersDetailsViewState.Episode(id: 3, name: "Anatomy Park", characters: [
+            CharactersDetailsViewState.Episode.Character(id: 1,
+                       url: URL(string: "https://rickandmortyapi.com/api/character/1")!,
+                       image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")),
+             Character(id: 2,
+                       url: URL(string: "https://rickandmortyapi.com/api/character/2")!,
+                       image: URL(string: "https://rickandmortyapi.com/api/character/avatar/2.jpeg"))
+         ])]
     }
 }

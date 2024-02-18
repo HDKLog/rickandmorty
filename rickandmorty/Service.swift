@@ -4,7 +4,8 @@ import Combine
 final class Service: CharactersListServicing, CharactersDetailsServicing {
 
 
-    private var baseUrl = URL(string: "https://rickandmortyapi.com/api")!
+    private let baseUrl = URL(string: "https://rickandmortyapi.com/api")!
+    private lazy var decoder: JSONDecoder = { JSONDecoder() }()
 
     private func request(url: URL) -> AnyPublisher<Data, Error> {
         URLSession.shared.dataTaskPublisher(for:  url)
@@ -30,6 +31,20 @@ final class Service: CharactersListServicing, CharactersDetailsServicing {
         let url = baseUrl.appendingPathComponent("character").appendingPathComponent("/\(characterId)")
         return request(url: url)
             .decode(type: CharactersListPage.Character.self, decoder: JSONDecoder())
+            .eraseToAnyPublisher()
+    }
+
+    public func getEpisodes(episodesIds: [Int]) -> AnyPublisher<[EpisodesListPage.Episode], Error> {
+        let url = baseUrl.appendingPathComponent("episode").appendingPathComponent("/\(episodesIds.map(String.init).joined(separator: ","))")
+        return request(url: url)
+            .tryCompactMap { [weak self] data in
+                guard let self else { return nil }
+                if episodesIds.count > 1 {
+                    return try self.decoder.decode([EpisodesListPage.Episode].self, from: data)
+                } else {
+                    return [try self.decoder.decode(EpisodesListPage.Episode.self, from: data)]
+                }
+            }
             .eraseToAnyPublisher()
     }
 }

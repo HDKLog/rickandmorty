@@ -18,7 +18,7 @@ struct CharactersListRow: View {
                 default:
                     Image(systemName: "person")
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .aspectRatio(contentMode: .fit)
                         .frame(width: 50, height: 50)
                         .clipShape(Circle())
                 }

@@ -66,9 +66,9 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                     Spacer()
                 }
                 HStack {
-                    LazyVStack {
-                        ForEach(viewModel.viewState.character.episode) { episode in
-                            Text("\(episode.id)")
+                    VStack {
+                        ForEach(viewModel.viewState.episodes) { episode in
+                            EpisodeSectionView(episode: episode)
                         }
                     }
                 }
