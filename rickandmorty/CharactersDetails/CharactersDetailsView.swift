@@ -68,7 +68,9 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                 HStack {
                     VStack {
                         ForEach(viewModel.viewState.episodes) { episode in
-                            EpisodeSectionView(episode: episode)
+                            EpisodeSectionView(episode: episode) { characterId in
+                                viewModel.onCharacterTap(id: characterId)
+                            }
                         }
                     }
                 }

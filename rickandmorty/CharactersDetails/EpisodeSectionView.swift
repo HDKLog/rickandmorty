@@ -3,13 +3,16 @@ import SwiftUI
 
 struct EpisodeSectionView: View {
     let episode: CharactersDetailsViewState.Episode
+    let onCharacterImageTap: ((Int) -> Void)?
 
     var body: some View {
         DisclosureGroup() {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(episode.characters) { character in
-                        EpisodeCharacterView(character: character)
+                        EpisodeCharacterView(character: character).onTapGesture {
+                            onCharacterImageTap?(character.id)
+                        }
                     }
                 }
             }
@@ -21,6 +24,11 @@ struct EpisodeSectionView: View {
         }
         .tint(.brown)
         .padding(10)
+    }
+    
+    init(episode: CharactersDetailsViewState.Episode, onCharacterImageTap: ( (Int) -> Void)? = nil) {
+        self.episode = episode
+        self.onCharacterImageTap = onCharacterImageTap
     }
 }
 

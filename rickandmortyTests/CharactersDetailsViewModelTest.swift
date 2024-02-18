@@ -35,7 +35,14 @@ final class CharactersDetailsViewModelTest: XCTestCase {
             goBackCalls += 1
             goBackClosure()
         }
-        
+
+        var routeToCharacterDetailsCalls: Int = 0
+        var routeToCharacterDetailsClosure: (Int) ->  Void = { _ in }
+        func routeToCharacterDetails(id: Int) {
+            routeToCharacterDetailsCalls += 1
+            routeToCharacterDetailsClosure(id)
+        }
+
     }
 
     var cancellables:[AnyCancellable] = []
@@ -193,6 +200,39 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
         XCTAssertEqual(sut.viewState.viewState, .episodesLoaded(CharactersDetailsViewState.Episode.mocks))
     }
+
+    func test_charactersListViewModel_onCharacterTap_navigatesToCharacterDetailsOnce() {
+        let tapedCharacterId = 1
+        let service = Service()
+        let router = Router()
+        let characterId: Int = 0
+        let sut = makeSut(service: service, router: router, characterId: characterId)
+
+        sut.onCharacterTap(id: tapedCharacterId)
+
+        XCTAssertEqual(router.routeToCharacterDetailsCalls, 1)
+    }
+
+    func test_charactersListViewModel_onCharacterTap_navigatesCorrectCharacterId() {
+        let tapedCharacterId = 1
+        let service = Service()
+        let router = Router()
+        let characterId: Int = 0
+        let sut = makeSut(service: service, router: router, characterId: characterId)
+
+        var navigateToId: Int?
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        router.routeToCharacterDetailsClosure = { characterId in
+            navigateToId = characterId
+            expectation.fulfill()
+        }
+
+        sut.onCharacterTap(id: tapedCharacterId)
+        wait(for: [expectation], timeout: 2)
+
+        XCTAssertEqual(navigateToId, tapedCharacterId)
+    }
+
 
     func test_charactersListViewModel_onGoBack_navigatesBackOnce() {
         let service = Service()

@@ -6,6 +6,7 @@ protocol CharactersDetailsViewModeling: ObservableObject {
 
     func onViewAppear()
     func onGoBack()
+    func onCharacterTap(id: Int)
 }
 
 final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
@@ -29,6 +30,10 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
 
     func onGoBack() {
         router?.goBack()
+    }
+
+    public func onCharacterTap(id: Int) {
+        router?.routeToCharacterDetails(id: id)
     }
 
     private func loadCharacter() {
