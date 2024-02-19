@@ -19,9 +19,12 @@ final class Service: CharactersListServicing, CharactersDetailsServicing {
         }.eraseToAnyPublisher()
     }
 
-    public func getsCharactersListPage(page: Int) -> AnyPublisher<CharactersListPage, Error> {
+    public func getsCharactersListPage(page: Int, filter: CharactersListFilter?) -> AnyPublisher<CharactersListPage, Error> {
 
-        let url = baseUrl.appendingPathComponent("character").appending(queryItems: [URLQueryItem(name: "page", value: String(page))])
+        let url = baseUrl
+            .appendingPathComponent("character")
+            .appending(queryItems: [URLQueryItem(name: "page", value: String(page))])
+            .appending(queryItems: filter?.asURLQueryItems ?? [])
         return request(url: url)
             .decode(type: CharactersListPage.self, decoder: JSONDecoder())
             .eraseToAnyPublisher()
@@ -46,5 +49,13 @@ final class Service: CharactersListServicing, CharactersDetailsServicing {
                 }
             }
             .eraseToAnyPublisher()
+    }
+}
+
+extension CharactersListFilter {
+    var asURLQueryItems: [URLQueryItem] {
+        [URLQueryItem(name: "name", value: name),
+         URLQueryItem(name: "status", value: status),
+         URLQueryItem(name: "gender", value: gender)]
     }
 }

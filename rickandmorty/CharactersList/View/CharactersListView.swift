@@ -27,7 +27,43 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
     }
 
     var header: some View {
-        VStack {}
+        VStack {
+            TextField("Name", text: $viewModel.viewState.searchText)
+                .padding(7)
+                .padding(.horizontal, 25)
+                .background(Color(uiColor: .init(white: 0, alpha: 0.1)))
+                .cornerRadius(8)
+                .autocorrectionDisabled()
+            HStack {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("Status:")
+                        Spacer()
+                        Picker("Status", selection: $viewModel.viewState.selectedStatusKey) {
+                            ForEach(viewModel.viewState.statuses.keys.sorted(), id: \.self) {
+                                Text($0)
+                            }
+                        }
+                    }
+                    HStack {
+                        Text("Gender:")
+                        Spacer()
+                        Picker("Status", selection: $viewModel.viewState.selectedGenderKey) {
+                            ForEach(viewModel.viewState.genders.keys.sorted(), id: \.self) {
+                                Text($0)
+                            }
+                        }
+                    }
+                }
+                Spacer()
+                Button(action: viewModel.onSearch) {
+                    Text("Search")
+                }
+                .buttonStyle(.bordered)
+                .tint(.black)
+            }
+        }
+        .padding()
     }
 
     var footer: some View {

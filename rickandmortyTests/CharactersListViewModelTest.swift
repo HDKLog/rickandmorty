@@ -8,12 +8,12 @@ final class CharactersListViewModelTest: XCTestCase {
     final class Service: CharactersListServicing {
 
         var getsCharactersListPageCalls: Int = 0
-        var getsCharactersListPageClosure: (Int) ->  AnyPublisher<CharactersListPage, Error> = { _ in
+        var getsCharactersListPageClosure: (Int, CharactersListFilter?) ->  AnyPublisher<CharactersListPage, Error> = { _, _ in
             Empty<CharactersListPage, Error>(completeImmediately: true).eraseToAnyPublisher()
         }
-        func getsCharactersListPage(page: Int) -> AnyPublisher<CharactersListPage, Error> {
+        func getsCharactersListPage(page: Int, filter: CharactersListFilter? ) -> AnyPublisher<CharactersListPage, Error> {
             getsCharactersListPageCalls += 1
-            return getsCharactersListPageClosure(page)
+            return getsCharactersListPageClosure(page, filter)
         }
     }
 
@@ -49,7 +49,7 @@ final class CharactersListViewModelTest: XCTestCase {
         let service = Service()
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = {_ in
+        service.getsCharactersListPageClosure = { _, _ in
             Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -71,7 +71,7 @@ final class CharactersListViewModelTest: XCTestCase {
         let service = Service()
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = {_ in
+        service.getsCharactersListPageClosure = { _, _ in
             Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -92,7 +92,7 @@ final class CharactersListViewModelTest: XCTestCase {
 
         let service = Service()
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = {_ in
+        service.getsCharactersListPageClosure = { _, _ in
             Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -114,7 +114,7 @@ final class CharactersListViewModelTest: XCTestCase {
 
         let service = Service()
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = {_ in
+        service.getsCharactersListPageClosure = { _, _ in
             Just(CharactersListPage.mockFirst)
                 .setFailureType(to: Error.self)
                 .delay(for: .seconds(3), scheduler: RunLoop.main, options: .none)
@@ -139,7 +139,7 @@ final class CharactersListViewModelTest: XCTestCase {
 
         let service = Service()
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = {_ in
+        service.getsCharactersListPageClosure = { _, _ in
             Just(CharactersListPage.mockFirst)
                 .setFailureType(to: Error.self)
                 .delay(for: .seconds(3), scheduler: RunLoop.main, options: .none)
@@ -164,7 +164,7 @@ final class CharactersListViewModelTest: XCTestCase {
 
         let service = Service()
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = {_ in
+        service.getsCharactersListPageClosure = { _, _ in
             Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -186,7 +186,7 @@ final class CharactersListViewModelTest: XCTestCase {
 
         let service = Service()
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = {_ in
+        service.getsCharactersListPageClosure = { _, _ in
             Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -208,7 +208,7 @@ final class CharactersListViewModelTest: XCTestCase {
 
         let service = Service()
         var expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = { page in
+        service.getsCharactersListPageClosure = { page, _ in
             Just<CharactersListPage>(page == 1 ? .mockFirst : .mockLast).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -233,7 +233,7 @@ final class CharactersListViewModelTest: XCTestCase {
 
         let service = Service()
         var expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = { page in
+        service.getsCharactersListPageClosure = { page, _ in
             Just<CharactersListPage>(page == 1 ? .mockFirst : .mockLast).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -258,7 +258,7 @@ final class CharactersListViewModelTest: XCTestCase {
 
         let service = Service()
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = {_ in
+        service.getsCharactersListPageClosure = {_, _ in
             Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -281,7 +281,7 @@ final class CharactersListViewModelTest: XCTestCase {
         let service = Service()
         var requestedPages: [Int] = []
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = { nextPage in
+        service.getsCharactersListPageClosure = { nextPage, _ in
             requestedPages.append(nextPage)
             return Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
@@ -305,7 +305,7 @@ final class CharactersListViewModelTest: XCTestCase {
         let expectedResults: [CharactersListViewState.Character] = CharactersListViewState.Character.mocks + CharactersListViewState.Character.mocks
         let service = Service()
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = {_ in
+        service.getsCharactersListPageClosure = { _, _ in
             Just(CharactersListPage.mockFirst).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -327,7 +327,7 @@ final class CharactersListViewModelTest: XCTestCase {
 
         let service = Service()
         var expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharactersListPageClosure = { page in
+        service.getsCharactersListPageClosure = { page, _ in
             Just<CharactersListPage>(page == 1 ? .mockFirst : .mockLast).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -386,6 +386,45 @@ final class CharactersListViewModelTest: XCTestCase {
 
         XCTAssertEqual(resultId, CharactersListPage.mockFirst.viewStateCharacters.first?.id)
     }
+
+    func test_charactersListViewModel_onSearch_loadsNextPageOnce() {
+
+        let service = Service()
+        let router = Router()
+
+        let sut = makeSut(service: service, router: router)
+        sut.onSearch()
+
+        XCTAssertEqual(service.getsCharactersListPageCalls, 1)
+    }
+
+    func test_charactersListViewModel_onSearch_loadsNextPageWithFilter() {
+
+        let service = Service()
+        let router = Router()
+
+        let sut = makeSut(service: service, router: router)
+        sut.viewState.searchText = "name"
+        sut.viewState.selectedStatusKey = sut.viewState.statuses.randomElement()!.key
+        sut.viewState.selectedGenderKey = sut.viewState.genders.randomElement()!.key
+        let expectingFilter = CharactersListFilter(name: sut.viewState.searchText,
+                                                   status: sut.viewState.selectedStatus,
+                                                   gender: sut.viewState.selectedGender)
+
+        var requestFilter: CharactersListFilter? = nil
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharactersListPageClosure = { _, filter in
+            requestFilter = filter
+            expectation.fulfill()
+            return Empty<CharactersListPage, Error>(completeImmediately: true).eraseToAnyPublisher()
+        }
+
+        sut.onSearch()
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertEqual(requestFilter, expectingFilter)
+    }
+
 }
 
 extension CharactersListPage {

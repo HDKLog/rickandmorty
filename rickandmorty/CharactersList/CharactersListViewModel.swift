@@ -2,11 +2,12 @@ import Foundation
 import Combine
 
 protocol CharactersListViewModeling: ObservableObject {
-    var viewState: CharactersListViewState { get }
+    var viewState: CharactersListViewState { get set }
 
     func onViewAppear()
     func onCharacterAppear(id: Int)
     func onCharacterTap(id: Int)
+    func onSearch()
 }
 
 final class CharactersListViewModel: CharactersListViewModeling {
@@ -17,6 +18,7 @@ final class CharactersListViewModel: CharactersListViewModeling {
     private let router: CharactersListRouting?
     private var currentPageInfo: CharactersListPage.Info? = nil
     private var nextPage: Int = 1
+    private var searchFilter: CharactersListFilter?
 
     init(service: CharactersListServicing, router: CharactersListRouting? = nil) {
         self.service = service
@@ -40,10 +42,23 @@ final class CharactersListViewModel: CharactersListViewModeling {
         router?.routeToCharacterDetails(id: id)
     }
 
+    func onSearch() {
+        searchFilter = CharactersListFilter(name: viewState.searchText,
+                                            status: viewState.selectedStatus,
+                                            gender: viewState.selectedGender)
+        resetLoadedResults()
+    }
+
+    private func resetLoadedResults() {
+        nextPage = 1
+        viewState = viewState.withState(newViewState: .initial)
+        loadNextPage()
+    }
+
     private func loadNextPage() {
         viewState = viewState.withState(newViewState: .loading)
         service
-            .getsCharactersListPage(page: nextPage)
+            .getsCharactersListPage(page: nextPage, filter: searchFilter)
             .catch{ error in
                 print("Service error: \(error)")
                 return Empty<CharactersListPage, Never>(completeImmediately: true).eraseToAnyPublisher()
