@@ -78,6 +78,15 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
             }
             .padding(DesigneBook.Design.Padding.extraLarge)
         }
+        .alert(DesigneBook.Text.CharactersList.Error.dialogName,
+               isPresented: $viewModel.viewState.showError) {
+            VStack {
+                Text(viewModel.viewState.errorMessage)
+                Button(action: viewModel.onErrorDismiss) {
+                    Text(DesigneBook.Text.CharactersList.Error.dialogButtonName)
+                }
+            }
+        }
         .scrollIndicators(.hidden)
         .listStyle(.plain)
         .navigationBarTitle(DesigneBook.Text.CharactersDetails.Navigation.title)

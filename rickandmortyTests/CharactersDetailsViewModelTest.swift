@@ -126,6 +126,30 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.viewState, .characterLoaded(.mock))
     }
 
+    func test_charactersListViewModel_onViewAppear_whenCharacterLoadingErrorOccurs_setsErrorInViewState() {
+
+        let error = NSError(domain: "Error", code: -1)
+        let service = Service()
+        let characterId: Int = 0
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharacterClosure = { _ in
+            Fail<CharactersListPage.Character, Error>(error: error).eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service, characterId: characterId)
+
+        sut.$viewState.dropFirst().sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertEqual(sut.viewState.viewState, .error(error.localizedDescription))
+    }
+
     func test_charactersListViewModel_onViewAppear_loadsEpisodesOnce() {
         let service = Service()
         let characterId: Int = 0
@@ -201,6 +225,34 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.viewState, .episodesLoaded(CharactersDetailsViewState.Episode.mocks))
     }
 
+    func test_charactersListViewModel_onViewAppear_whenEpisodesLoadingErrorOccurs_setsErrorInViewState() {
+
+        let error = NSError(domain: "Error", code: -1)
+        let service = Service()
+        let characterId: Int = 0
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharacterClosure = {_ in
+            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        service.getEpisodesClosure = {_ in
+            Fail<[EpisodesListPage.Episode], Error>(error: error).eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service, characterId: characterId)
+
+        sut.$viewState.dropFirst(2).sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertEqual(sut.viewState.viewState, .error(error.localizedDescription))
+    }
+
     func test_charactersListViewModel_onCharacterTap_navigatesToCharacterDetailsOnce() {
         let tapedCharacterId = 1
         let service = Service()
@@ -243,6 +295,31 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         sut.onGoBack()
 
         XCTAssertEqual(router.goBackCalls, 1)
+    }
+
+    func test_charactersListViewModel_onErrorDismiss_dismissErrorInViewState() {
+
+        let error = NSError(domain: "Error", code: -1)
+        let service = Service()
+        let characterId: Int = 0
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharacterClosure = { _ in
+            Fail<CharactersListPage.Character, Error>(error: error).eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service, characterId: characterId)
+
+        sut.$viewState.dropFirst().sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        sut.onErrorDismiss()
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertEqual(sut.viewState.viewState, .dismissError)
     }
 }
 

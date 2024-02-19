@@ -19,12 +19,22 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
                 }
             }
         }
+        .alert(DesigneBook.Text.CharactersList.Error.dialogName,
+               isPresented: $viewModel.viewState.showError) {
+            VStack {
+                Text(viewModel.viewState.errorMessage)
+                Button(action: viewModel.onErrorDismiss) {
+                    Text(DesigneBook.Text.CharactersList.Error.dialogButtonName)
+                }
+            }
+        }
         .background(DesigneBook.Design.Color.Background.list.swiftUIColor())
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .listStyle(.plain)
         .navigationBarTitle(DesigneBook.Text.CharactersList.Navigation.title)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform:viewModel.onViewAppear)
+        
     }
 
     var header: some View {
@@ -64,15 +74,6 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
                 }
             }
             .padding()
-            .alert(DesigneBook.Text.CharactersList.Error.dialogName,
-                   isPresented: $viewModel.viewState.showError) {
-                VStack {
-                    Text(viewModel.viewState.errorMessage)
-                    Button(action: viewModel.onErrorDismiss) {
-                        Text(DesigneBook.Text.CharactersList.Error.dialogButtonName)
-                    }
-                }
-            }
         }
     }
 

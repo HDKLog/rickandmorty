@@ -2,11 +2,12 @@ import Foundation
 import Combine
 
 protocol CharactersDetailsViewModeling: ObservableObject {
-    var viewState: CharactersDetailsViewState { get }
+    var viewState: CharactersDetailsViewState { get set }
 
     func onViewAppear()
     func onGoBack()
     func onCharacterTap(id: Int)
+    func onErrorDismiss()
 }
 
 final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
@@ -36,12 +37,17 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
         router?.routeToCharacterDetails(id: id)
     }
 
+    func onErrorDismiss() {
+        viewState = viewState.withState(newViewState: .dismissError)
+    }
+
     private func loadCharacter() {
         service
             .getsCharacter(characterId: characterId)
             .receive(on: DispatchQueue.main)
-            .catch { error in
+            .catch { [weak self] error in
                 print("Service error: \(error)")
+                self?.showError(message: error.localizedDescription)
                 return Empty<CharactersListPage.Character, Never>(completeImmediately: true).eraseToAnyPublisher()
             }
             .compactMap { [weak self] character in
@@ -62,14 +68,19 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
                 self?.service.getEpisodes(episodesIds: episodes.map(\.id))
             }
             .flatMap { $0 }
-            .catch { error in
+            .catch { [weak self] error in
                 print("Service error: \(error)")
+                self?.showError(message: error.localizedDescription)
                 return Empty<[EpisodesListPage.Episode], Never>(completeImmediately: true).eraseToAnyPublisher()
             }
             .compactMap { [weak self] episodes in
                 self?.viewState.withState(newViewState: .episodesLoaded(episodes.map(\.viewStateEpisode)))
             }
             .assign(to: &$viewState)
+    }
+
+    private func showError(message: String) {
+        viewState = viewState.withState(newViewState: .error(message))
     }
 }
 

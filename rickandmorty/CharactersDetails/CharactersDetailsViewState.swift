@@ -6,6 +6,8 @@ struct CharactersDetailsViewState: Hashable {
         case loading
         case characterLoaded(Character)
         case episodesLoaded([Episode])
+        case error(String)
+        case dismissError
     }
 
     struct Character: Identifiable, Equatable, Hashable {
@@ -42,6 +44,9 @@ struct CharactersDetailsViewState: Hashable {
     var character: Character = .init(id: 0, name: "", status: "", species: "", type: "", gender: "", origin: "", location: "", image: "", episode: [])
     var episodes: [Episode] = []
 
+    var showError: Bool = false
+    var errorMessage: String = ""
+
     mutating func setnewViewState(newViewState: ViewState) {
         viewState = newViewState
         switch viewState {
@@ -53,6 +58,11 @@ struct CharactersDetailsViewState: Hashable {
             self.character = character
         case .episodesLoaded(let episodes):
             self.episodes = episodes
+        case .error(let errorMessage):
+            self.errorMessage = errorMessage
+            self.showError = true
+        case .dismissError:
+            self.showError = false
         }
     }
 
