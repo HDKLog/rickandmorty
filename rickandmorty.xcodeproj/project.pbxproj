@@ -55,7 +55,7 @@
 		4EFE898F2B7FB8B60094E014 /* CharactersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListView.swift; sourceTree = "<group>"; };
 		4EFE89912B7FB9760094E014 /* CharactersListViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListViewState.swift; sourceTree = "<group>"; };
 		4EFE89932B7FBA3D0094E014 /* CharactersListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListRouter.swift; sourceTree = "<group>"; };
-		4EFE89952B7FBBF30094E014 /* CharactersListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CharactersListService.swift; path = rickandmorty/CharactersListService.swift; sourceTree = SOURCE_ROOT; };
+		4EFE89952B7FBBF30094E014 /* CharactersListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CharactersListService.swift; path = rickandmorty/Service/CharactersListService.swift; sourceTree = SOURCE_ROOT; };
 		4EFE89972B7FBD030094E014 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		4EFE89992B7FC1D60094E014 /* CharactersListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListPage.swift; sourceTree = "<group>"; };
 		4EFE899B2B7FE9AA0094E014 /* CharactersListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListRow.swift; sourceTree = "<group>"; };
@@ -111,11 +111,7 @@
 		4EFE895F2B7FB58D0094E014 /* rickandmorty */ = {
 			isa = PBXGroup;
 			children = (
-				4EFE89972B7FBD030094E014 /* Service.swift */,
-				4EFE89952B7FBBF30094E014 /* CharactersListService.swift */,
-				4EFE89AA2B8037050094E014 /* CharactersDetailsService.swift */,
-				4EFE89992B7FC1D60094E014 /* CharactersListPage.swift */,
-				4EFE89AE2B813E440094E014 /* EpisodesListPage.swift */,
+				4EFE89C32B83C5520094E014 /* Service */,
 				4EFE89B72B8368400094E014 /* DesigneBook.swift */,
 				4EFE898C2B7FB8620094E014 /* CharactersList */,
 				4EFE899E2B8036D50094E014 /* CharactersDetails */,
@@ -169,13 +165,33 @@
 			isa = PBXGroup;
 			children = (
 				4EFE89A42B8036D50094E014 /* CharactersDetailsViewModel.swift */,
-				4EFE89A02B8036D50094E014 /* CharactersDetailsView.swift */,
-				4EFE89B42B829A310094E014 /* EpisodeSectionView.swift */,
-				4EFE89B22B8157A00094E014 /* EpisodeCharacterView.swift */,
+				4EFE89C42B83C5B10094E014 /* View */,
 				4EFE89A22B8036D50094E014 /* CharactersDetailsViewState.swift */,
 				4EFE89A32B8036D50094E014 /* CharactersDetailsRouter.swift */,
 			);
 			path = CharactersDetails;
+			sourceTree = "<group>";
+		};
+		4EFE89C32B83C5520094E014 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				4EFE89972B7FBD030094E014 /* Service.swift */,
+				4EFE89952B7FBBF30094E014 /* CharactersListService.swift */,
+				4EFE89AA2B8037050094E014 /* CharactersDetailsService.swift */,
+				4EFE89992B7FC1D60094E014 /* CharactersListPage.swift */,
+				4EFE89AE2B813E440094E014 /* EpisodesListPage.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		4EFE89C42B83C5B10094E014 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4EFE89A02B8036D50094E014 /* CharactersDetailsView.swift */,
+				4EFE89B42B829A310094E014 /* EpisodeSectionView.swift */,
+				4EFE89B22B8157A00094E014 /* EpisodeCharacterView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

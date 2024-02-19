@@ -60,6 +60,12 @@
             "state" : "translated",
             "value" : "%1$@ - %2$@"
           }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ - %2$@"
+          }
         }
       }
     },
