@@ -18,52 +18,53 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
                     }
                 }
             }
-
         }
+        .background(DesigneBook.Design.Color.Background.list.swiftUIColor())
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         .listStyle(.plain)
-        .navigationBarTitle("Characters")
+        .navigationBarTitle(DesigneBook.Text.CharactersList.Navigation.title)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear(perform:viewModel.onViewAppear)
     }
 
     var header: some View {
-        VStack {
-            TextField("Name", text: $viewModel.viewState.searchText)
-                .padding(7)
-                .padding(.horizontal, 25)
-                .background(Color(uiColor: .init(white: 0, alpha: 0.1)))
-                .cornerRadius(8)
-                .autocorrectionDisabled()
-            HStack {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text("Status:")
-                        Spacer()
-                        Picker("Status", selection: $viewModel.viewState.selectedStatusKey) {
-                            ForEach(viewModel.viewState.statuses.keys.sorted(), id: \.self) {
-                                Text($0)
+        HStack {
+            VStack {
+                TextField(DesigneBook.Text.CharactersList.Search.nameFieldPlaceholder, text: $viewModel.viewState.searchText)
+                    .padding(DesigneBook.Design.Padding.small)
+                    .padding(.horizontal, DesigneBook.Design.Padding.large)
+                    .background(DesigneBook.Design.Color.Foreground.light.swiftUIColor())
+                    .cornerRadius(DesigneBook.Design.Size.CornerRadius.small)
+                    .autocorrectionDisabled()
+                HStack {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text(DesigneBook.Text.CharactersList.Search.statusLabel)
+                            Picker(DesigneBook.Text.CharactersList.Search.statusPicker, selection: $viewModel.viewState.selectedStatusKey) {
+                                ForEach(viewModel.viewState.statuses.keys.sorted(), id: \.self) {
+                                    Text($0)
+                                }
+                            }
+                        }
+                        HStack {
+                            Text(DesigneBook.Text.CharactersList.Search.genderLabel)
+                            Picker(DesigneBook.Text.CharactersList.Search.genderPicker, selection: $viewModel.viewState.selectedGenderKey) {
+                                ForEach(viewModel.viewState.genders.keys.sorted(), id: \.self) {
+                                    Text($0)
+                                }
                             }
                         }
                     }
-                    HStack {
-                        Text("Gender:")
-                        Spacer()
-                        Picker("Status", selection: $viewModel.viewState.selectedGenderKey) {
-                            ForEach(viewModel.viewState.genders.keys.sorted(), id: \.self) {
-                                Text($0)
-                            }
-                        }
+                    Spacer()
+                    Button(action: viewModel.onSearch) {
+                        Text(DesigneBook.Text.CharactersList.Search.searchButtonLabel)
                     }
+                    .buttonStyle(.bordered)
+                    .tint(DesigneBook.Design.Color.Foreground.highlited.swiftUIColor())
                 }
-                Spacer()
-                Button(action: viewModel.onSearch) {
-                    Text("Search")
-                }
-                .buttonStyle(.bordered)
-                .tint(.black)
             }
+            .padding()
         }
-        .padding()
     }
 
     var footer: some View {
@@ -75,7 +76,7 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
                 }
                 Spacer()
             }
-            .frame(minHeight: 100)
+            .frame(minHeight: DesigneBook.Design.Size.Frame.Height.medium)
         }
     }
 }

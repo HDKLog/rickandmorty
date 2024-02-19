@@ -13,19 +13,19 @@ struct CharactersListRow: View {
                          image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 50, height: 50)
+                        .frame(width: DesigneBook.Design.Size.Frame.Width.small, height: DesigneBook.Design.Size.Frame.Height.small)
                         .clipShape(Circle())
                 default:
                     Image(systemName: "person")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
+                        .frame(width: DesigneBook.Design.Size.Frame.Width.small, height: DesigneBook.Design.Size.Frame.Height.small)
                         .clipShape(Circle())
                 }
             }
             Text(characterName)
                 .font(.headline)
-                .padding(.trailing, 10.0)
+                .padding(.trailing, DesigneBook.Design.Padding.medium)
             Spacer()
         }
         .contentShape(Rectangle())

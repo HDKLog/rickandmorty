@@ -13,34 +13,35 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 300, height: 300)
-                            .clipShape(RoundedRectangle(cornerRadius: 25))
+                            .frame(width: DesigneBook.Design.Size.Frame.Width.large, height: DesigneBook.Design.Size.Frame.Height.large)
+                            .clipShape(RoundedRectangle(cornerRadius: DesigneBook.Design.Size.CornerRadius.medium))
                     default:
                         Image(systemName: "person")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 300, height: 300)
-                            .clipShape(RoundedRectangle(cornerRadius: 25))
+                            .frame(width: DesigneBook.Design.Size.Frame.Width.large, height: DesigneBook.Design.Size.Frame.Height.large)
+                            .clipShape(RoundedRectangle(cornerRadius: DesigneBook.Design.Size.CornerRadius.medium))
                     }
                 }
-                VStack(spacing: 30) {
+                VStack(spacing: DesigneBook.Design.Spacing.small) {
                     HStack {
                         VStack(alignment: .leading) {
                             Text(viewModel.viewState.character.name)
                                 .font(.largeTitle)
                             Spacer()
                             HStack {
-                                Text(viewModel.viewState.character.status)
-                                Text("-")
-                                Text(viewModel.viewState.character.species)
+                                Text(String(
+                                    format: DesigneBook.Text.CharactersDetails.Character.statusSpeciesFormat,
+                                    viewModel.viewState.character.status,
+                                    viewModel.viewState.character.species
+                                ))
                                 Spacer()
                             }
                         }
-                        // Display detailed character information
                     }
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("Last known location:")
+                            Text(DesigneBook.Text.CharactersDetails.Character.lastLocationLabel)
                                 .font(.headline)
                             Spacer()
                             Text(viewModel.viewState.character.location)
@@ -50,7 +51,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                     }
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("First seen in:")
+                            Text(DesigneBook.Text.CharactersDetails.Character.originLabel)
                                 .font(.headline)
                             Spacer()
                             Text(viewModel.viewState.character.origin)
@@ -61,7 +62,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                 }
                 Spacer()
                 HStack {
-                    Text("Episodes:")
+                    Text(DesigneBook.Text.CharactersDetails.Character.episodesLabel)
                         .font(.headline)
                     Spacer()
                 }
@@ -75,11 +76,11 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                     }
                 }
             }
-            .padding(30)
+            .padding(DesigneBook.Design.Padding.extraLarge)
         }
         .scrollIndicators(.hidden)
         .listStyle(.plain)
-        .navigationBarTitle("Character Details")
+        .navigationBarTitle(DesigneBook.Text.CharactersDetails.Navigation.title)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
         .navigationBarItems(leading: btnBack)
@@ -91,7 +92,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
             HStack {
                 Image(systemName: "chevron.left")
                     .aspectRatio(contentMode: .fit)
-                Text("Go back")
+                Text(DesigneBook.Text.CharactersDetails.Navigation.backButtonLabel)
             }
         }
     }
