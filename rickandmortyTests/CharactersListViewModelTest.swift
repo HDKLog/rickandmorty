@@ -88,6 +88,29 @@ final class CharactersListViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.viewState, .loaded(CharactersListViewState.Character.mocks))
     }
 
+    func test_charactersListViewModel_onViewAppear_whenLoadingErrorOccurs_setsErrorInViewState() {
+
+        let error = NSError(domain: "Error", code: -1)
+        let service = Service()
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharactersListPageClosure = { _, _ in
+            Fail<CharactersListPage, Error>(error: error).eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service)
+
+        sut.$viewState.sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertEqual(sut.viewState.viewState, .error(error.localizedDescription))
+    }
+
     func test_charactersListViewModel_onCharacterAppear_whenFirstCharacterAppear_doesNotRequestNextPage() {
 
         let service = Service()
@@ -423,6 +446,30 @@ final class CharactersListViewModelTest: XCTestCase {
         wait(for: [expectation], timeout:2)
 
         XCTAssertEqual(requestFilter, expectingFilter)
+    }
+
+    func test_charactersListViewModel_onErrorDismiss_dismissErrorInViewState() {
+
+        let error = NSError(domain: "Error", code: -1)
+        let service = Service()
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        service.getsCharactersListPageClosure = { _, _ in
+            Fail<CharactersListPage, Error>(error: error).eraseToAnyPublisher()
+        }
+
+        let sut = makeSut(service: service)
+
+        sut.$viewState.dropFirst().sink {_ in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        sut.onErrorDismiss()
+        wait(for: [expectation], timeout:2)
+
+        XCTAssertEqual(sut.viewState.viewState, .dismissError)
     }
 
 }

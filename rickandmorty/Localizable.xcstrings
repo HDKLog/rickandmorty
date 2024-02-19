@@ -103,6 +103,40 @@
         }
       }
     },
+    "CHARACTERS_LIST_ERROR_DIALOG_BUTTON" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "დახურვა"
+          }
+        }
+      }
+    },
+    "CHARACTERS_LIST_ERROR_DIALOG_NAME" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
+          }
+        },
+        "ka" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "შეცდომა"
+          }
+        }
+      }
+    },
     "CHARACTERS_LIST_NAVIGATION_TITLE" : {
       "extractionState" : "manual",
       "localizations" : {

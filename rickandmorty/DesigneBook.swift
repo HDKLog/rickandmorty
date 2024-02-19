@@ -86,9 +86,11 @@ struct DesigneBook {
 
     struct Text {
         struct CharactersList {
+
             struct Navigation {
                 static var title: String { String(localized: "CHARACTERS_LIST_NAVIGATION_TITLE") }
             }
+
             struct Search {
                 static var nameFieldPlaceholder: String { String(localized: "CHARACTERS_LIST_SEARCH_NAME_FIELD_PLACEHOLDER") }
                 static var statusLabel: String { String(localized: "CHARACTERS_LIST_SEARCH_STATUS_LABEL") }
@@ -108,13 +110,20 @@ struct DesigneBook {
                 static var genderPickGenderless: String { String(localized: "CHARACTERS_LIST_SEARCH_GENDER_PIKED_GENDERLESS") }
                 static var genderPickUnknown: String { String(localized: "CHARACTERS_LIST_SEARCH_GENDER_PIKED_UNKNOWN") }
             }
+
+            struct Error {
+                static var dialogName: String { String(localized: "CHARACTERS_LIST_ERROR_DIALOG_NAME") }
+                static var dialogButtonName: String { String(localized: "CHARACTERS_LIST_ERROR_DIALOG_BUTTON") }
+            }
         }
 
         struct CharactersDetails {
+
             struct Navigation {
                 static var title: String { String(localized: "CHARACTERS_DETAILS_NAVIGATION_TITLE") }
                 static var backButtonLabel: String { String(localized: "CHARACTERS_DETAILS_NAVIGATION_BACK_BUTTON_LABEL") }
             }
+
             struct Character {
                 static var lastLocationLabel: String { String(localized: "CHARACTERS_DETAILS_CHARACTER_LOCATION_LABEL") }
                 static var originLabel: String { String(localized: "CHARACTERS_DETAILS_CHARACTER_ORIGIN_LABEL") }

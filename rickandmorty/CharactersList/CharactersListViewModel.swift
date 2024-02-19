@@ -8,6 +8,7 @@ protocol CharactersListViewModeling: ObservableObject {
     func onCharacterAppear(id: Int)
     func onCharacterTap(id: Int)
     func onSearch()
+    func onErrorDismiss()
 }
 
 final class CharactersListViewModel: CharactersListViewModeling {
@@ -49,6 +50,10 @@ final class CharactersListViewModel: CharactersListViewModeling {
         resetLoadedResults()
     }
 
+    func onErrorDismiss() {
+        viewState = viewState.withState(newViewState: .dismissError)
+    }
+
     private func resetLoadedResults() {
         nextPage = 1
         viewState = viewState.withState(newViewState: .initial)
@@ -59,8 +64,9 @@ final class CharactersListViewModel: CharactersListViewModeling {
         viewState = viewState.withState(newViewState: .loading)
         service
             .getsCharactersListPage(page: nextPage, filter: searchFilter)
-            .catch{ error in
+            .catch{ [weak self] error in
                 print("Service error: \(error)")
+                self?.showError(message: error.localizedDescription)
                 return Empty<CharactersListPage, Never>(completeImmediately: true).eraseToAnyPublisher()
             }
             .compactMap { [weak self] listPage in
@@ -69,6 +75,10 @@ final class CharactersListViewModel: CharactersListViewModeling {
                 return self?.viewState.withState(newViewState: .loaded(listPage.viewStateCharacters))
             }
             .assign(to: &$viewState)
+    }
+
+    private func showError(message: String) {
+        viewState = viewState.withState(newViewState: .error(message))
     }
 }
 

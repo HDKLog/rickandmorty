@@ -64,6 +64,15 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
                 }
             }
             .padding()
+            .alert(DesigneBook.Text.CharactersList.Error.dialogName,
+                   isPresented: $viewModel.viewState.showError) {
+                VStack {
+                    Text(viewModel.viewState.errorMessage)
+                    Button(action: viewModel.onErrorDismiss) {
+                        Text(DesigneBook.Text.CharactersList.Error.dialogButtonName)
+                    }
+                }
+            }
         }
     }
 
