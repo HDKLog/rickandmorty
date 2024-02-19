@@ -31,6 +31,7 @@
 		4EFE89B52B829A320094E014 /* EpisodeSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89B42B829A310094E014 /* EpisodeSectionView.swift */; };
 		4EFE89B82B8368400094E014 /* DesigneBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89B72B8368400094E014 /* DesigneBook.swift */; };
 		4EFE89BC2B8389DE0094E014 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE89BB2B8389DE0094E014 /* Localizable.xcstrings */; };
+		4EFE89D42B83FE5B0094E014 /* AddaptiveStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89D32B83FE5B0094E014 /* AddaptiveStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		4EFE89B42B829A310094E014 /* EpisodeSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EpisodeSectionView.swift; sourceTree = "<group>"; };
 		4EFE89B72B8368400094E014 /* DesigneBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesigneBook.swift; sourceTree = "<group>"; };
 		4EFE89BB2B8389DE0094E014 /* Localizable.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		4EFE89D32B83FE5B0094E014 /* AddaptiveStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddaptiveStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				4EFE89A02B8036D50094E014 /* CharactersDetailsView.swift */,
+				4EFE89D32B83FE5B0094E014 /* AddaptiveStack.swift */,
 				4EFE89B42B829A310094E014 /* EpisodeSectionView.swift */,
 				4EFE89B22B8157A00094E014 /* EpisodeCharacterView.swift */,
 			);
@@ -306,6 +309,7 @@
 				4EFE89AF2B813E440094E014 /* EpisodesListPage.swift in Sources */,
 				4EFE89902B7FB8B60094E014 /* CharactersListView.swift in Sources */,
 				4EFE89A82B8036D50094E014 /* CharactersDetailsRouter.swift in Sources */,
+				4EFE89D42B83FE5B0094E014 /* AddaptiveStack.swift in Sources */,
 				4EFE89962B7FBBF30094E014 /* CharactersListService.swift in Sources */,
 				4EFE89B32B8157A00094E014 /* EpisodeCharacterView.swift in Sources */,
 				4EFE89942B7FBA3D0094E014 /* CharactersListRouter.swift in Sources */,

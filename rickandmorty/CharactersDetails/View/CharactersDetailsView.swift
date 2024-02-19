@@ -6,60 +6,67 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
     var body: some View {
         ScrollView (.vertical) {
             VStack {
-                AsyncImage(url: URL(string: viewModel.viewState.character.image)) { phase in
+                AddaptiveStack() {
+                    VStack {
+                        AsyncImage(url: URL(string: viewModel.viewState.character.image)) { phase in
 
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: DesigneBook.Design.Size.Frame.Width.large, height: DesigneBook.Design.Size.Frame.Height.large)
-                            .clipShape(RoundedRectangle(cornerRadius: DesigneBook.Design.Size.CornerRadius.medium))
-                    default:
-                        Image(systemName: "person")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: DesigneBook.Design.Size.Frame.Width.large, height: DesigneBook.Design.Size.Frame.Height.large)
-                            .clipShape(RoundedRectangle(cornerRadius: DesigneBook.Design.Size.CornerRadius.medium))
+                            switch phase {
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: DesigneBook.Design.Size.Frame.Width.large, height: DesigneBook.Design.Size.Frame.Height.large)
+                                    .clipShape(RoundedRectangle(cornerRadius: DesigneBook.Design.Size.CornerRadius.medium))
+                            default:
+                                Image(systemName: "person")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: DesigneBook.Design.Size.Frame.Width.large, height: DesigneBook.Design.Size.Frame.Height.large)
+                                    .clipShape(RoundedRectangle(cornerRadius: DesigneBook.Design.Size.CornerRadius.medium))
+                            }
+                        }
                     }
-                }
-                VStack(spacing: DesigneBook.Design.Spacing.small) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(viewModel.viewState.character.name)
-                                .font(.largeTitle)
-                            Spacer()
+                    VStack {
+                        VStack(spacing: DesigneBook.Design.Spacing.small) {
                             HStack {
-                                Text(String(
-                                    format: DesigneBook.Text.CharactersDetails.Character.statusSpeciesFormat,
-                                    viewModel.viewState.character.status,
-                                    viewModel.viewState.character.species
-                                ))
+                                VStack(alignment: .leading) {
+                                    Text(viewModel.viewState.character.name)
+                                        .font(.largeTitle)
+                                    Spacer()
+                                    HStack {
+                                        Text(String(
+                                            format: DesigneBook.Text.CharactersDetails.Character.statusSpeciesFormat,
+                                            viewModel.viewState.character.status,
+                                            viewModel.viewState.character.species
+                                        ))
+                                        Spacer()
+                                    }
+                                }
+                            }
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(DesigneBook.Text.CharactersDetails.Character.lastLocationLabel)
+                                        .font(.headline)
+                                    Spacer()
+                                    Text(viewModel.viewState.character.location)
+                                    Spacer()
+                                }
+                                Spacer()
+                            }
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(DesigneBook.Text.CharactersDetails.Character.originLabel)
+                                        .font(.headline)
+                                    Spacer()
+                                    Text(viewModel.viewState.character.origin)
+                                    Spacer()
+                                }
                                 Spacer()
                             }
                         }
                     }
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(DesigneBook.Text.CharactersDetails.Character.lastLocationLabel)
-                                .font(.headline)
-                            Spacer()
-                            Text(viewModel.viewState.character.location)
-                            Spacer()
-                        }
-                        Spacer()
-                    }
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(DesigneBook.Text.CharactersDetails.Character.originLabel)
-                                .font(.headline)
-                            Spacer()
-                            Text(viewModel.viewState.character.origin)
-                            Spacer()
-                        }
-                        Spacer()
-                    }
                 }
+
                 Spacer()
                 HStack {
                     Text(DesigneBook.Text.CharactersDetails.Character.episodesLabel)
@@ -87,13 +94,13 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                 }
             }
         }
-        .scrollIndicators(.hidden)
-        .listStyle(.plain)
-        .navigationBarTitle(DesigneBook.Text.CharactersDetails.Navigation.title)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden()
-        .navigationBarItems(leading: btnBack)
-        .onAppear(perform:viewModel.onViewAppear)
+               .scrollIndicators(.hidden)
+               .listStyle(.plain)
+               .navigationBarTitle(DesigneBook.Text.CharactersDetails.Navigation.title)
+               .navigationBarTitleDisplayMode(.inline)
+               .navigationBarBackButtonHidden()
+               .navigationBarItems(leading: btnBack)
+               .onAppear(perform:viewModel.onViewAppear)
     }
 
     var btnBack : some View {
