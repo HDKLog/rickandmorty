@@ -62,6 +62,10 @@ final class Service: CharactersListServicing, CharactersDetailsServicing {
             })
             .eraseToAnyPublisher()
     }
+
+    public func cachedImage(from url: URL) -> URL? {
+        cacher?.cachedImage(from: url)
+    }
 }
 
 extension CharactersListFilter {

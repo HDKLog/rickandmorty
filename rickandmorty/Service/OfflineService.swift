@@ -7,7 +7,7 @@ protocol CachingService {
     func cacheCharacters(characters: [CharactersListPage.Character])
     func cacheEpisodes(episodes: [EpisodesListPage.Episode])
 
-    func cachedImage(from url: URL?) -> URL?
+    func cachedImage(from url: URL) -> URL?
 }
 
 class OfflineService: CharactersListServicing, CharactersDetailsServicing {
@@ -102,7 +102,9 @@ extension CharactersListPage.Character {
         gender = character.gender ?? ""
         origin = Location(name: character.origin?.name ?? "", url: character.origin?.url ?? "")
         location = Location(name: character.location?.name ?? "", url: character.location?.url ?? "")
-        image = character.image.flatMap { cacher.cachedImage(from: URL(string: $0))?.absoluteString } ?? ""
+        image = character.image.flatMap { URL(string: $0) }.flatMap { url in
+            cacher.cachedImage(from: url)?.absoluteString
+        } ?? ""
 
         let episodesSet = character.episode?.compactMap { $0 as? EpisodeRecord }
         let episodesArray = episodesSet?.compactMap {  $0.url }

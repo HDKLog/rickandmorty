@@ -25,6 +25,15 @@ final class CharactersDetailsViewModelTest: XCTestCase {
             return getEpisodesClosure(episodesIds)
         }
 
+        var cachedImageCalls: Int = 0
+        var cachedImageClosure: (URL) ->  URL? = { _ in
+            nil
+        }
+        func cachedImage(from url: URL) -> URL? {
+            cachedImageCalls += 1
+            return cachedImageClosure(url)
+        }
+
     }
 
     final class Router: CharactersDetailsRouting {
@@ -198,6 +207,63 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         wait(for: [expectation], timeout: 2)
 
         XCTAssertEqual(sut.viewState.episodes, CharactersDetailsViewState.Episode.mocks)
+    }
+
+    func test_charactersListViewModel_onViewAppear_whenLoadsEpisodes_requestCachedCharactersImagesOnce() {
+        let service = Service()
+        let episode = EpisodesListPage.mock.results.first!
+        let characterId: Int = 0
+        let sut = makeSut(service: service, characterId: characterId)
+
+        service.getsCharacterClosure = {_ in
+            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        service.getEpisodesClosure = {_ in
+            Just([episode]).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        sut.$viewState.dropFirst(2).sink { state in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout: 2)
+
+        XCTAssertEqual(service.cachedImageCalls, episode.characters.count)
+    }
+
+    func test_charactersListViewModel_onViewAppear_whenLoadsEpisodes_setsCachedCharactersImagesForViewStateEpisode() {
+        let service = Service()
+        let episode = EpisodesListPage.mock.results.first!
+        let cachedEpisodeCharacterUrl = URL(string: "google.com")
+        let characterId: Int = 0
+        let sut = makeSut(service: service, characterId: characterId)
+
+        service.getsCharacterClosure = {_ in
+            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        service.getEpisodesClosure = {_ in
+            Just([episode]).setFailureType(to: Error.self).eraseToAnyPublisher()
+        }
+
+        service.cachedImageClosure = {_ in
+            cachedEpisodeCharacterUrl
+        }
+
+        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
+        sut.$viewState.dropFirst(2).sink { state in
+            expectation.fulfill()
+        }
+        .store(in: &cancellables)
+
+        sut.onViewAppear()
+        wait(for: [expectation], timeout: 2)
+
+        XCTAssertEqual(sut.viewState.episodes.first?.characters.first?.image, cachedEpisodeCharacterUrl)
     }
 
     func test_charactersListViewModel_onViewAppear_whenEpisodesLoaded_setsCorrectViewState() {

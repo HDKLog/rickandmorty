@@ -75,13 +75,33 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
                 return Empty<[EpisodesListPage.Episode], Never>(completeImmediately: true).eraseToAnyPublisher()
             }
             .compactMap { [weak self] episodes in
-                self?.viewState.withState(newViewState: .episodesLoaded(episodes.map(\.viewStateEpisode)))
+                guard let self else { return nil }
+                return self.viewState.withState(newViewState: .episodesLoaded(self.resolveCacheFor(episodes: episodes)))
             }
             .assign(to: &$viewState)
     }
 
     private func showError(message: String) {
         viewState = viewState.withState(newViewState: .error(message))
+    }
+
+    private func resolveCacheFor(episodes: [EpisodesListPage.Episode]) -> [CharactersDetailsViewState.Episode] {
+        episodes.map { episode in
+
+            let characters = episode.characters.compactMap { urlString -> CharactersDetailsViewState.Episode.Character? in
+                guard let url = URL(string: urlString ),
+                      let id = Int(url.lastPathComponent)
+                else {
+                    return nil
+                }
+                let imageUrl = URL(string: "https://rickandmortyapi.com/api/character/avatar/\(id).jpeg")
+                let resolvedImageUrl = imageUrl.flatMap { [self] url in
+                    self.service.cachedImage(from: url)
+                }
+                return CharactersDetailsViewState.Episode.Character(id: id, url: url, image: resolvedImageUrl )
+            }
+            return CharactersDetailsViewState.Episode(id: episode.id, name: episode.name, characters: characters)
+        }
     }
 }
 
@@ -106,18 +126,5 @@ extension CharactersListPage.Character {
                 return CharactersDetailsViewState.Character.Episode(id: id, url: url)
             }
         )
-    }
-}
-
-extension EpisodesListPage.Episode {
-    var viewStateEpisode: CharactersDetailsViewState.Episode {
-        CharactersDetailsViewState.Episode(id: id, name: name, characters: characters.compactMap({ urlString in
-            guard let url = URL(string: urlString ),
-                  let id = Int(url.lastPathComponent)
-            else {
-                return nil
-            }
-            return CharactersDetailsViewState.Episode.Character(id: id, url: url, image: URL(string: "https://rickandmortyapi.com/api/character/avatar/\(id).jpeg") )
-        }))
     }
 }

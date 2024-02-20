@@ -41,5 +41,8 @@ class ServiceSelector: CharactersListServicing, CharactersDetailsServicing {
         selectedCharactersDetailsService.getEpisodes(episodesIds: episodesIds)
     }
     
+    func cachedImage(from url: URL) -> URL? {
+        selectedCharactersDetailsService.cachedImage(from: url)
+    }
 
 }
