@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddaptiveStack<Content: View>: View {
+struct AdaptiveStack<Content: View>: View {
     @Environment(\.verticalSizeClass) private var verticalSizeClass: UserInterfaceSizeClass?
 
     @ViewBuilder let content: () -> Content
@@ -23,7 +23,7 @@ struct AddaptiveStack<Content: View>: View {
 
 
 #Preview {
-    AddaptiveStack {
+    AdaptiveStack {
         Text("Element 1")
         Spacer()
         Text("Element 2")

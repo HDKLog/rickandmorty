@@ -38,24 +38,24 @@ struct CharactersListViewState: Hashable {
 
     var searchText: String = ""
 
-    var selectedStatusKey = DesigneBook.Text.CharactersList.Search.statusPickAll
+    var selectedStatusKey = DesignBook.Text.CharactersList.Search.statusPickAll
     var selectedStatus: String? { statuses[selectedStatusKey].flatMap { $0?.rawValue } }
-    let statuses: [String : Character.Status?] = [DesigneBook.Text.CharactersList.Search.statusPickAll: .none,
-                                                  DesigneBook.Text.CharactersList.Search.statusPickAlive: .alive,
-                                                  DesigneBook.Text.CharactersList.Search.statusPickDead:.dead,
-                                                  DesigneBook.Text.CharactersList.Search.statusPickUnknown:.unknown]
+    let statuses: [String : Character.Status?] = [DesignBook.Text.CharactersList.Search.statusPickAll: .none,
+                                                  DesignBook.Text.CharactersList.Search.statusPickAlive: .alive,
+                                                  DesignBook.Text.CharactersList.Search.statusPickDead:.dead,
+                                                  DesignBook.Text.CharactersList.Search.statusPickUnknown:.unknown]
 
-    var selectedGenderKey = DesigneBook.Text.CharactersList.Search.genderPickAny
+    var selectedGenderKey = DesignBook.Text.CharactersList.Search.genderPickAny
     var selectedGender: String? { genders[selectedGenderKey].flatMap { $0?.rawValue } }
-    let genders: [String : Character.Gender?] = [DesigneBook.Text.CharactersList.Search.genderPickAny: .none,
-                                                 DesigneBook.Text.CharactersList.Search.genderPickMale: .male,
-                                                 DesigneBook.Text.CharactersList.Search.genderPickFemale:.female,
-                                                 DesigneBook.Text.CharactersList.Search.genderPickGenderless: .genderless,
-                                                 DesigneBook.Text.CharactersList.Search.genderPickUnknown:.unknown]
+    let genders: [String : Character.Gender?] = [DesignBook.Text.CharactersList.Search.genderPickAny: .none,
+                                                 DesignBook.Text.CharactersList.Search.genderPickMale: .male,
+                                                 DesignBook.Text.CharactersList.Search.genderPickFemale:.female,
+                                                 DesignBook.Text.CharactersList.Search.genderPickGenderless: .genderless,
+                                                 DesignBook.Text.CharactersList.Search.genderPickUnknown:.unknown]
     var showError: Bool = false
     var errorMessage: String = ""
 
-    mutating func setnewViewState(newViewState: ViewState) {
+    mutating func setViewState(newViewState: ViewState) {
         viewState = newViewState
         switch viewState {
         case .initial:
@@ -75,7 +75,7 @@ struct CharactersListViewState: Hashable {
 
     func withState(newViewState: ViewState) -> Self {
         var mutation = self
-        mutation.setnewViewState(newViewState: newViewState)
+        mutation.setViewState(newViewState: newViewState)
         return mutation
     }
 }

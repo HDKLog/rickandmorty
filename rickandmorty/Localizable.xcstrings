@@ -75,12 +75,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bcak"
+            "value" : "Back"
           }
         },
         "ka" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "უკან"
           }
         }

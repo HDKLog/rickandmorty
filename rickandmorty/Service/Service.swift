@@ -34,7 +34,7 @@ final class Service: CharactersListServicing, CharactersDetailsServicing {
         return request(url: url)
             .decode(type: CharactersListPage.self, decoder: JSONDecoder())
             .handleEvents(receiveOutput: { [weak self] page in
-                self?.cacher?.cacheCharacters(charactters: page.results)
+                self?.cacher?.cacheCharacters(characters: page.results)
             })
             .eraseToAnyPublisher()
     }

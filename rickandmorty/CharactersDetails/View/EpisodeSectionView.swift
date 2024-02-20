@@ -20,10 +20,10 @@ struct EpisodeSectionView: View {
             Text(episode.name)
                 .multilineTextAlignment(.leading)
                 .font(.title2)
-                .padding(DesigneBook.Design.Padding.extraSmall)
+                .padding(DesignBook.Design.Padding.extraSmall)
         }
-        .tint(DesigneBook.Design.Color.Foreground.highlited.swiftUIColor())
-        .padding(DesigneBook.Design.Padding.medium)
+        .tint(DesignBook.Design.Color.Foreground.highlighted.swiftUIColor())
+        .padding(DesignBook.Design.Padding.medium)
     }
     
     init(episode: CharactersDetailsViewState.Episode, onCharacterImageTap: ( (Int) -> Void)? = nil) {

@@ -3,12 +3,12 @@ import CoreData
 import Combine
 
 extension OfflineService: CachingService {
-    func cacheCharacters(charactters: [CharactersListPage.Character]) {
+    func cacheCharacters(characters: [CharactersListPage.Character]) {
         let context = self.context
         let fetchRequest = CharacterRecord.fetchRequest()
 
 
-        for character in charactters {
+        for character in characters {
             fetchRequest.predicate = NSPredicate(format: "id == %lld", character.id as CVarArg)
             let characterRecord = (try? context.fetch(fetchRequest).first) ?? CharacterRecord(context: context)
 

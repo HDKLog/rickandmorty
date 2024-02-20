@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct DesigneBook {
+struct DesignBook {
 
     struct Design {
         struct Size {
@@ -68,7 +68,7 @@ struct DesigneBook {
             }
 
             struct Foreground {
-                static let highlited = ColorWrapper(name: "color-foreground-highlited")
+                static let highlighted = ColorWrapper(name: "color-foreground-highlighted")
                 static let action = ColorWrapper(name: "color-foreground-action")
                 static let element = ColorWrapper(name: "color-foreground-element")
                 static let inverse = ColorWrapper(name: "color-foreground-inverse")

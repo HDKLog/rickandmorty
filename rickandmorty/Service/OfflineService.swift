@@ -4,7 +4,7 @@ import CoreData
 
 protocol CachingService {
 
-    func cacheCharacters(charactters: [CharactersListPage.Character])
+    func cacheCharacters(characters: [CharactersListPage.Character])
     func cacheEpisodes(episodes: [EpisodesListPage.Episode])
 
     func cachedImage(from url: URL?) -> URL?
@@ -12,9 +12,9 @@ protocol CachingService {
 
 class OfflineService: CharactersListServicing, CharactersDetailsServicing {
 
-    let pesristentContainerName = "RickAndMortyDataModel"
+    let persistentContainerName = "RickAndMortyDataModel"
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: self.pesristentContainerName)
+        let container = NSPersistentContainer(name: self.persistentContainerName)
         container.loadPersistentStores { _, error in
             if let error {
                 fatalError("Unable to load persistent stores: \(error)")

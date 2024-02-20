@@ -25,13 +25,13 @@ struct EpisodeCharacterView: View {
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: DesigneBook.Design.Size.Frame.Width.medium, height: DesigneBook.Design.Size.Frame.Height.medium)
+                        .frame(width: DesignBook.Design.Size.Frame.Width.medium, height: DesignBook.Design.Size.Frame.Height.medium)
                         .clipShape(Circle())
                 default:
                     Image(systemName: "person")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: DesigneBook.Design.Size.Frame.Width.medium, height: DesigneBook.Design.Size.Frame.Height.medium)
+                        .frame(width: DesignBook.Design.Size.Frame.Width.medium, height: DesignBook.Design.Size.Frame.Height.medium)
                         .clipShape(Circle())
                 }
             }

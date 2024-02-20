@@ -64,6 +64,7 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
             .filter { episodes in
                 !episodes.isEmpty
             }
+            .removeDuplicates()
             .compactMap { [weak self] episodes in
                 self?.service.getEpisodes(episodesIds: episodes.map(\.id))
             }

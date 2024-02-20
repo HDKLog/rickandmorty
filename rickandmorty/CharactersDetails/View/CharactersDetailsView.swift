@@ -6,7 +6,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
     var body: some View {
         ScrollView (.vertical) {
             VStack {
-                AddaptiveStack() {
+                AdaptiveStack() {
                     VStack {
                         AsyncImage(url: URL(string: viewModel.viewState.character.image)) { phase in
 
@@ -15,19 +15,19 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                                 image
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: DesigneBook.Design.Size.Frame.Width.large, height: DesigneBook.Design.Size.Frame.Height.large)
-                                    .clipShape(RoundedRectangle(cornerRadius: DesigneBook.Design.Size.CornerRadius.medium))
+                                    .frame(width: DesignBook.Design.Size.Frame.Width.large, height: DesignBook.Design.Size.Frame.Height.large)
+                                    .clipShape(RoundedRectangle(cornerRadius: DesignBook.Design.Size.CornerRadius.medium))
                             default:
                                 Image(systemName: "person")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width: DesigneBook.Design.Size.Frame.Width.large, height: DesigneBook.Design.Size.Frame.Height.large)
-                                    .clipShape(RoundedRectangle(cornerRadius: DesigneBook.Design.Size.CornerRadius.medium))
+                                    .frame(width: DesignBook.Design.Size.Frame.Width.large, height: DesignBook.Design.Size.Frame.Height.large)
+                                    .clipShape(RoundedRectangle(cornerRadius: DesignBook.Design.Size.CornerRadius.medium))
                             }
                         }
                     }
                     VStack {
-                        VStack(spacing: DesigneBook.Design.Spacing.small) {
+                        VStack(spacing: DesignBook.Design.Spacing.small) {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text(viewModel.viewState.character.name)
@@ -35,7 +35,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                                     Spacer()
                                     HStack {
                                         Text(String(
-                                            format: DesigneBook.Text.CharactersDetails.Character.statusSpeciesFormat,
+                                            format: DesignBook.Text.CharactersDetails.Character.statusSpeciesFormat,
                                             viewModel.viewState.character.status,
                                             viewModel.viewState.character.species
                                         ))
@@ -45,7 +45,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                             }
                             HStack {
                                 VStack(alignment: .leading) {
-                                    Text(DesigneBook.Text.CharactersDetails.Character.lastLocationLabel)
+                                    Text(DesignBook.Text.CharactersDetails.Character.lastLocationLabel)
                                         .font(.headline)
                                     Spacer()
                                     Text(viewModel.viewState.character.location)
@@ -55,7 +55,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                             }
                             HStack {
                                 VStack(alignment: .leading) {
-                                    Text(DesigneBook.Text.CharactersDetails.Character.originLabel)
+                                    Text(DesignBook.Text.CharactersDetails.Character.originLabel)
                                         .font(.headline)
                                     Spacer()
                                     Text(viewModel.viewState.character.origin)
@@ -69,7 +69,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
 
                 Spacer()
                 HStack {
-                    Text(DesigneBook.Text.CharactersDetails.Character.episodesLabel)
+                    Text(DesignBook.Text.CharactersDetails.Character.episodesLabel)
                         .font(.headline)
                     Spacer()
                 }
@@ -83,20 +83,20 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
                     }
                 }
             }
-            .padding(DesigneBook.Design.Padding.extraLarge)
+            .padding(DesignBook.Design.Padding.extraLarge)
         }
-        .alert(DesigneBook.Text.CharactersList.Error.dialogName,
+        .alert(DesignBook.Text.CharactersList.Error.dialogName,
                isPresented: $viewModel.viewState.showError) {
             VStack {
                 Text(viewModel.viewState.errorMessage)
                 Button(action: viewModel.onErrorDismiss) {
-                    Text(DesigneBook.Text.CharactersList.Error.dialogButtonName)
+                    Text(DesignBook.Text.CharactersList.Error.dialogButtonName)
                 }
             }
         }
                .scrollIndicators(.hidden)
                .listStyle(.plain)
-               .navigationBarTitle(DesigneBook.Text.CharactersDetails.Navigation.title)
+               .navigationBarTitle(DesignBook.Text.CharactersDetails.Navigation.title)
                .navigationBarTitleDisplayMode(.inline)
                .navigationBarBackButtonHidden()
                .navigationBarItems(leading: btnBack)
@@ -108,7 +108,7 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
             HStack {
                 Image(systemName: "chevron.left")
                     .aspectRatio(contentMode: .fit)
-                Text(DesigneBook.Text.CharactersDetails.Navigation.backButtonLabel)
+                Text(DesignBook.Text.CharactersDetails.Navigation.backButtonLabel)
             }
         }
     }
