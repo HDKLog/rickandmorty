@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct rickandmortyApp: App {
+ struct rickandmortyApp: App {
     var body: some Scene {
         WindowGroup {
-            RouterView()
+            RouterView(viewModel: RouterViewModel())
         }
     }
 }

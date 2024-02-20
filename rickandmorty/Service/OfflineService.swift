@@ -28,7 +28,18 @@ class OfflineService: CharactersListServicing, CharactersDetailsServicing {
 
         Just(context).tryMap { context in
             let request = CharacterRecord.fetchRequest()
-            request.predicate = NSPredicate(format: "name != nil && created != nil")
+
+            var format = ""
+            if let searchName = filter?.name, !searchName.isEmpty {
+                format = "\(format) && (name CONTAINS[cd] '\(searchName)')"
+            }
+            if let searchStatus = filter?.status {
+                format = "\(format) && (status LIKE[c] '\(searchStatus)')"
+            }
+            if let searchGender = filter?.gender {
+                format = "\(format) && (gender LIKE[c] '\(searchGender)')"
+            }
+            request.predicate = NSPredicate(format: "created != nil \(format)")
             return try context.fetch(request)
         }
         .map { records in

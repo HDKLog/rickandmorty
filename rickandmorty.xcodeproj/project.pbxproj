@@ -35,6 +35,8 @@
 		4EFE89D62B84033A0094E014 /* OfflineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89D52B84033A0094E014 /* OfflineService.swift */; };
 		4EFE89D92B8403F40094E014 /* RickAndMortyDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89D72B8403F40094E014 /* RickAndMortyDataModel.xcdatamodeld */; };
 		4EFE89E72B84395E0094E014 /* ServiceSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89E62B84395E0094E014 /* ServiceSelector.swift */; };
+		4EFE89EB2B84AA040094E014 /* RouterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89EA2B84AA040094E014 /* RouterViewModel.swift */; };
+		4EFE89ED2B84AA980094E014 /* RouterViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89EC2B84AA980094E014 /* RouterViewState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,8 @@
 		4EFE89D52B84033A0094E014 /* OfflineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineService.swift; sourceTree = "<group>"; };
 		4EFE89D82B8403F40094E014 /* RickAndMortyDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RickAndMortyDataModel.xcdatamodel; sourceTree = "<group>"; };
 		4EFE89E62B84395E0094E014 /* ServiceSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSelector.swift; sourceTree = "<group>"; };
+		4EFE89EA2B84AA040094E014 /* RouterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterViewModel.swift; sourceTree = "<group>"; };
+		4EFE89EC2B84AA980094E014 /* RouterViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterViewState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +129,7 @@
 				4EFE898C2B7FB8620094E014 /* CharactersList */,
 				4EFE899E2B8036D50094E014 /* CharactersDetails */,
 				4EFE89602B7FB58D0094E014 /* rickandmortyApp.swift */,
-				4EFE898A2B7FB7E90094E014 /* RouterView.swift */,
+				4EFE89EE2B84B30B0094E014 /* Router */,
 				4EFE89642B7FB58E0094E014 /* Assets.xcassets */,
 				4EFE89BB2B8389DE0094E014 /* Localizable.xcstrings */,
 				4EFE89662B7FB58E0094E014 /* Preview Content */,
@@ -204,6 +208,16 @@
 				4EFE89B22B8157A00094E014 /* EpisodeCharacterView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		4EFE89EE2B84B30B0094E014 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				4EFE898A2B7FB7E90094E014 /* RouterView.swift */,
+				4EFE89EA2B84AA040094E014 /* RouterViewModel.swift */,
+				4EFE89EC2B84AA980094E014 /* RouterViewState.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,6 +324,7 @@
 				4EFE89D62B84033A0094E014 /* OfflineService.swift in Sources */,
 				4EFE89AB2B8037050094E014 /* CharactersDetailsService.swift in Sources */,
 				4EFE89D92B8403F40094E014 /* RickAndMortyDataModel.xcdatamodeld in Sources */,
+				4EFE89ED2B84AA980094E014 /* RouterViewState.swift in Sources */,
 				4EFE89922B7FB9760094E014 /* CharactersListViewState.swift in Sources */,
 				4EFE89A52B8036D50094E014 /* CharactersDetailsView.swift in Sources */,
 				4EFE89A72B8036D50094E014 /* CharactersDetailsViewState.swift in Sources */,
@@ -328,6 +343,7 @@
 				4EFE89982B7FBD030094E014 /* Service.swift in Sources */,
 				4EFE899A2B7FC1D60094E014 /* CharactersListPage.swift in Sources */,
 				4EFE898B2B7FB7E90094E014 /* RouterView.swift in Sources */,
+				4EFE89EB2B84AA040094E014 /* RouterViewModel.swift in Sources */,
 				4EFE89A92B8036D50094E014 /* CharactersDetailsViewModel.swift in Sources */,
 				4EFE89612B7FB58D0094E014 /* rickandmortyApp.swift in Sources */,
 			);
