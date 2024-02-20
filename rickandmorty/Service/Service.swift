@@ -3,9 +3,14 @@ import Combine
 
 final class Service: CharactersListServicing, CharactersDetailsServicing {
 
+    let cacher: CachingService?
 
     private let baseUrl = URL(string: "https://rickandmortyapi.com/api")!
     private lazy var decoder: JSONDecoder = { JSONDecoder() }()
+
+    init(cacher: CachingService? = nil) {
+        self.cacher = cacher
+    }
 
     private func request(url: URL) -> AnyPublisher<Data, Error> {
         URLSession.shared.dataTaskPublisher(for:  url)
@@ -25,8 +30,12 @@ final class Service: CharactersListServicing, CharactersDetailsServicing {
             .appendingPathComponent("character")
             .appending(queryItems: [URLQueryItem(name: "page", value: String(page))])
             .appending(queryItems: filter?.asURLQueryItems ?? [])
+
         return request(url: url)
             .decode(type: CharactersListPage.self, decoder: JSONDecoder())
+            .handleEvents(receiveOutput: { [weak self] page in
+                self?.cacher?.cacheCharacters(charactters: page.results)
+            })
             .eraseToAnyPublisher()
     }
 
@@ -48,6 +57,9 @@ final class Service: CharactersListServicing, CharactersDetailsServicing {
                     return [try self.decoder.decode(EpisodesListPage.Episode.self, from: data)]
                 }
             }
+            .handleEvents(receiveOutput: { [weak self] episodes in
+                self?.cacher?.cacheEpisodes(episodes: episodes)
+            })
             .eraseToAnyPublisher()
     }
 }

@@ -32,6 +32,9 @@
 		4EFE89B82B8368400094E014 /* DesigneBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89B72B8368400094E014 /* DesigneBook.swift */; };
 		4EFE89BC2B8389DE0094E014 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE89BB2B8389DE0094E014 /* Localizable.xcstrings */; };
 		4EFE89D42B83FE5B0094E014 /* AddaptiveStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89D32B83FE5B0094E014 /* AddaptiveStack.swift */; };
+		4EFE89D62B84033A0094E014 /* OfflineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89D52B84033A0094E014 /* OfflineService.swift */; };
+		4EFE89D92B8403F40094E014 /* RickAndMortyDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89D72B8403F40094E014 /* RickAndMortyDataModel.xcdatamodeld */; };
+		4EFE89E72B84395E0094E014 /* ServiceSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89E62B84395E0094E014 /* ServiceSelector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,9 @@
 		4EFE89B72B8368400094E014 /* DesigneBook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesigneBook.swift; sourceTree = "<group>"; };
 		4EFE89BB2B8389DE0094E014 /* Localizable.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		4EFE89D32B83FE5B0094E014 /* AddaptiveStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddaptiveStack.swift; sourceTree = "<group>"; };
+		4EFE89D52B84033A0094E014 /* OfflineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineService.swift; sourceTree = "<group>"; };
+		4EFE89D82B8403F40094E014 /* RickAndMortyDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RickAndMortyDataModel.xcdatamodel; sourceTree = "<group>"; };
+		4EFE89E62B84395E0094E014 /* ServiceSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSelector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +119,7 @@
 		4EFE895F2B7FB58D0094E014 /* rickandmorty */ = {
 			isa = PBXGroup;
 			children = (
+				4EFE89D72B8403F40094E014 /* RickAndMortyDataModel.xcdatamodeld */,
 				4EFE89C32B83C5520094E014 /* Service */,
 				4EFE89B72B8368400094E014 /* DesigneBook.swift */,
 				4EFE898C2B7FB8620094E014 /* CharactersList */,
@@ -178,6 +185,8 @@
 			isa = PBXGroup;
 			children = (
 				4EFE89972B7FBD030094E014 /* Service.swift */,
+				4EFE89D52B84033A0094E014 /* OfflineService.swift */,
+				4EFE89E62B84395E0094E014 /* ServiceSelector.swift */,
 				4EFE89952B7FBBF30094E014 /* CharactersListService.swift */,
 				4EFE89AA2B8037050094E014 /* CharactersDetailsService.swift */,
 				4EFE89992B7FC1D60094E014 /* CharactersListPage.swift */,
@@ -298,7 +307,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EFE89D62B84033A0094E014 /* OfflineService.swift in Sources */,
 				4EFE89AB2B8037050094E014 /* CharactersDetailsService.swift in Sources */,
+				4EFE89D92B8403F40094E014 /* RickAndMortyDataModel.xcdatamodeld in Sources */,
 				4EFE89922B7FB9760094E014 /* CharactersListViewState.swift in Sources */,
 				4EFE89A52B8036D50094E014 /* CharactersDetailsView.swift in Sources */,
 				4EFE89A72B8036D50094E014 /* CharactersDetailsViewState.swift in Sources */,
@@ -313,6 +324,7 @@
 				4EFE89962B7FBBF30094E014 /* CharactersListService.swift in Sources */,
 				4EFE89B32B8157A00094E014 /* EpisodeCharacterView.swift in Sources */,
 				4EFE89942B7FBA3D0094E014 /* CharactersListRouter.swift in Sources */,
+				4EFE89E72B84395E0094E014 /* ServiceSelector.swift in Sources */,
 				4EFE89982B7FBD030094E014 /* Service.swift in Sources */,
 				4EFE899A2B7FC1D60094E014 /* CharactersListPage.swift in Sources */,
 				4EFE898B2B7FB7E90094E014 /* RouterView.swift in Sources */,
@@ -589,6 +601,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4EFE89D72B8403F40094E014 /* RickAndMortyDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4EFE89D82B8403F40094E014 /* RickAndMortyDataModel.xcdatamodel */,
+			);
+			currentVersion = 4EFE89D82B8403F40094E014 /* RickAndMortyDataModel.xcdatamodel */;
+			path = RickAndMortyDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4EFE89552B7FB58D0094E014 /* Project object */;
 }

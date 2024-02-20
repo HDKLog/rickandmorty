@@ -8,7 +8,7 @@ struct RouterView: View {
 
     @State var endpoint: [NavigationEndpoint] = []
 
-    private var service: Service = { Service() }()
+    private var service: ServiceSelector = ServiceSelector()
 
     var body: some View {
         NavigationStack(path:$endpoint) {
