@@ -96,7 +96,7 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
                 }
                 let imageUrl = URL(string: "https://rickandmortyapi.com/api/character/avatar/\(id).jpeg")
                 let resolvedImageUrl = imageUrl.flatMap { [self] url in
-                    self.service.cachedImage(from: url)
+                    self.service.cachedImage(from: url) ?? url
                 }
                 return CharactersDetailsViewState.Episode.Character(id: id, url: url, image: resolvedImageUrl )
             }

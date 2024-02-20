@@ -60,7 +60,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         CharactersDetailsViewModel(service: service, router: router, characterId: characterId)
     }
 
-    func test_charactersListViewModel_onViewAppear_loadsCharacterOnce() {
+    func test_charactersDetailsViewModel_onViewAppear_loadsCharacterOnce() {
         let service = Service()
         let characterId: Int = 0
         let sut = makeSut(service: service, characterId: characterId)
@@ -70,7 +70,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(service.getsCharacterCalls, 1)
     }
 
-    func test_charactersListViewModel_onViewAppear_loadsCharacterWithCorrectId() {
+    func test_charactersDetailsViewModel_onViewAppear_loadsCharacterWithCorrectId() {
         let service = Service()
         let characterId: Int = 0
         let sut = makeSut(service: service, characterId: characterId)
@@ -93,7 +93,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(requestedId, characterId)
     }
 
-    func test_charactersListViewModel_onViewAppear_setsCharacterDataToViewState() {
+    func test_charactersDetailsViewModel_onViewAppear_setsCharacterDataToViewState() {
         let service = Service()
         let characterId: Int = 0
         let sut = makeSut(service: service, characterId: characterId)
@@ -114,7 +114,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.character, .mock)
     }
 
-    func test_charactersListViewModel_onViewAppear_setsCorrectViewState() {
+    func test_charactersDetailsViewModel_onViewAppear_setsCorrectViewState() {
         let service = Service()
         let characterId: Int = 0
         let sut = makeSut(service: service, characterId: characterId)
@@ -135,7 +135,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.viewState, .characterLoaded(.mock))
     }
 
-    func test_charactersListViewModel_onViewAppear_whenCharacterLoadingErrorOccurs_setsErrorInViewState() {
+    func test_charactersDetailsViewModel_onViewAppear_whenCharacterLoadingErrorOccurs_setsErrorInViewState() {
 
         let error = NSError(domain: "Error", code: -1)
         let service = Service()
@@ -159,7 +159,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.viewState, .error(error.localizedDescription))
     }
 
-    func test_charactersListViewModel_onViewAppear_loadsEpisodesOnce() {
+    func test_charactersDetailsViewModel_onViewAppear_loadsEpisodesOnce() {
         let service = Service()
         let characterId: Int = 0
         let sut = makeSut(service: service, characterId: characterId)
@@ -184,7 +184,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(service.getEpisodesCalls, 1)
     }
 
-    func test_charactersListViewModel_onViewAppear_setsEpisodesDataToViewState() {
+    func test_charactersDetailsViewModel_onViewAppear_setsEpisodesDataToViewState() {
         let service = Service()
         let characterId: Int = 0
         let sut = makeSut(service: service, characterId: characterId)
@@ -209,7 +209,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.episodes, CharactersDetailsViewState.Episode.mocks)
     }
 
-    func test_charactersListViewModel_onViewAppear_whenLoadsEpisodes_requestCachedCharactersImagesOnce() {
+    func test_charactersDetailsViewModel_onViewAppear_whenLoadsEpisodes_requestCachedCharactersImagesOnce() {
         let service = Service()
         let episode = EpisodesListPage.mock.results.first!
         let characterId: Int = 0
@@ -235,7 +235,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(service.cachedImageCalls, episode.characters.count)
     }
 
-    func test_charactersListViewModel_onViewAppear_whenLoadsEpisodes_setsCachedCharactersImagesForViewStateEpisode() {
+    func test_charactersDetailsViewModel_onViewAppear_whenLoadsEpisodes_setsCachedCharactersImagesForViewStateEpisode() {
         let service = Service()
         let episode = EpisodesListPage.mock.results.first!
         let cachedEpisodeCharacterUrl = URL(string: "google.com")
@@ -266,7 +266,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.episodes.first?.characters.first?.image, cachedEpisodeCharacterUrl)
     }
 
-    func test_charactersListViewModel_onViewAppear_whenEpisodesLoaded_setsCorrectViewState() {
+    func test_charactersDetailsViewModel_onViewAppear_whenEpisodesLoaded_setsCorrectViewState() {
         let service = Service()
         let characterId: Int = 0
         let sut = makeSut(service: service, characterId: characterId)
@@ -291,7 +291,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.viewState, .episodesLoaded(CharactersDetailsViewState.Episode.mocks))
     }
 
-    func test_charactersListViewModel_onViewAppear_whenEpisodesLoadingErrorOccurs_setsErrorInViewState() {
+    func test_charactersDetailsViewModel_onViewAppear_whenEpisodesLoadingErrorOccurs_setsErrorInViewState() {
 
         let error = NSError(domain: "Error", code: -1)
         let service = Service()
@@ -319,7 +319,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(sut.viewState.viewState, .error(error.localizedDescription))
     }
 
-    func test_charactersListViewModel_onCharacterTap_navigatesToCharacterDetailsOnce() {
+    func test_charactersDetailsViewModel_onCharacterTap_navigatesToCharacterDetailsOnce() {
         let tapedCharacterId = 1
         let service = Service()
         let router = Router()
@@ -331,7 +331,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(router.routeToCharacterDetailsCalls, 1)
     }
 
-    func test_charactersListViewModel_onCharacterTap_navigatesCorrectCharacterId() {
+    func test_charactersDetailsViewModel_onCharacterTap_navigatesCorrectCharacterId() {
         let tapedCharacterId = 1
         let service = Service()
         let router = Router()
@@ -352,7 +352,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
     }
 
 
-    func test_charactersListViewModel_onGoBack_navigatesBackOnce() {
+    func test_charactersDetailsViewModel_onGoBack_navigatesBackOnce() {
         let service = Service()
         let router = Router()
         let characterId: Int = 0
@@ -363,7 +363,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         XCTAssertEqual(router.goBackCalls, 1)
     }
 
-    func test_charactersListViewModel_onErrorDismiss_dismissErrorInViewState() {
+    func test_charactersDetailsViewModel_onErrorDismiss_dismissErrorInViewState() {
 
         let error = NSError(domain: "Error", code: -1)
         let service = Service()
