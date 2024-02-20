@@ -105,7 +105,6 @@ extension OfflineService: CachingService {
             let urlPath = url.pathComponents.joined(separator: "_")
             let fileName = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent(urlPath)
             URLSession.shared.dataTaskPublisher(for: url)
-                .receive(on: DispatchQueue.main)
                 .tryMap { feed -> Data in
                     guard let response = feed.response as? HTTPURLResponse,
                           (200...299).contains(response.statusCode) else {
