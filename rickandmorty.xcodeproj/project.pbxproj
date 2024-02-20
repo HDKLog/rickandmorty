@@ -37,6 +37,7 @@
 		4EFE89E72B84395E0094E014 /* ServiceSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89E62B84395E0094E014 /* ServiceSelector.swift */; };
 		4EFE89EB2B84AA040094E014 /* RouterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89EA2B84AA040094E014 /* RouterViewModel.swift */; };
 		4EFE89ED2B84AA980094E014 /* RouterViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89EC2B84AA980094E014 /* RouterViewState.swift */; };
+		4EFE89F02B84C7C00094E014 /* OfflineService+CachingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89EF2B84C7C00094E014 /* OfflineService+CachingService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		4EFE89E62B84395E0094E014 /* ServiceSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSelector.swift; sourceTree = "<group>"; };
 		4EFE89EA2B84AA040094E014 /* RouterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterViewModel.swift; sourceTree = "<group>"; };
 		4EFE89EC2B84AA980094E014 /* RouterViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterViewState.swift; sourceTree = "<group>"; };
+		4EFE89EF2B84C7C00094E014 /* OfflineService+CachingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OfflineService+CachingService.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +192,7 @@
 			children = (
 				4EFE89972B7FBD030094E014 /* Service.swift */,
 				4EFE89D52B84033A0094E014 /* OfflineService.swift */,
+				4EFE89EF2B84C7C00094E014 /* OfflineService+CachingService.swift */,
 				4EFE89E62B84395E0094E014 /* ServiceSelector.swift */,
 				4EFE89952B7FBBF30094E014 /* CharactersListService.swift */,
 				4EFE89AA2B8037050094E014 /* CharactersDetailsService.swift */,
@@ -340,6 +343,7 @@
 				4EFE89B32B8157A00094E014 /* EpisodeCharacterView.swift in Sources */,
 				4EFE89942B7FBA3D0094E014 /* CharactersListRouter.swift in Sources */,
 				4EFE89E72B84395E0094E014 /* ServiceSelector.swift in Sources */,
+				4EFE89F02B84C7C00094E014 /* OfflineService+CachingService.swift in Sources */,
 				4EFE89982B7FBD030094E014 /* Service.swift in Sources */,
 				4EFE899A2B7FC1D60094E014 /* CharactersListPage.swift in Sources */,
 				4EFE898B2B7FB7E90094E014 /* RouterView.swift in Sources */,
