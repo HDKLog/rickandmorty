@@ -79,3 +79,28 @@ struct CharactersListViewState: Hashable {
         return mutation
     }
 }
+
+
+#if DEBUG
+extension CharactersListViewState.Character {
+    static var mockRick: CharactersListViewState.Character {
+        .init(id: 1,
+              name: "Rick Sanchez",
+              status: "Alive",
+              species: "Human",
+              type: "",
+              gender: "Male",
+              image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"))
+    }
+
+    static var mockMorty: CharactersListViewState.Character {
+        .init(id: 2,
+              name: "Morty Smith",
+              status: "Alive",
+              species: "Human",
+              type: "",
+              gender: "Male",
+              image: URL(string: "https://rickandmortyapi.com/api/character/avatar/2.jpeg"))
+    }
+}
+#endif

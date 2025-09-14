@@ -91,6 +91,16 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
     }
 }
 
-#Preview {
-    CharactersListView(viewModel: CharactersListViewModel(service: Service()))
+#if DEBUG
+#Preview("loading") {
+    CharactersListView(viewModel: CharactersListViewModel(viewState: CharactersListViewState().withState(newViewState: .loading)))
 }
+
+#Preview("loaded") {
+    CharactersListView(viewModel: CharactersListViewModel(viewState: CharactersListViewState().withState(newViewState: .loaded([.mockRick, .mockMorty]))))
+}
+
+#Preview("Error") {
+    CharactersListView(viewModel: CharactersListViewModel(viewState: CharactersListViewState().withState(newViewState: .error("Error"))))
+}
+#endif

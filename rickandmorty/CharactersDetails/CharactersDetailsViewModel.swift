@@ -12,16 +12,20 @@ protocol CharactersDetailsViewModeling: ObservableObject {
 
 final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
 
-    @Published var viewState: CharactersDetailsViewState = CharactersDetailsViewState()
+    @Published var viewState: CharactersDetailsViewState
 
-    private let service: CharactersDetailsServicing
+    private let service: CharactersDetailsServicing?
     private let router: CharactersDetailsRouting?
     private let characterId: Int
 
-    init(service: CharactersDetailsServicing, router: CharactersDetailsRouting? = nil, characterId: Int) {
+    init(characterId: Int,
+         service: CharactersDetailsServicing? = nil,
+         router: CharactersDetailsRouting? = nil,
+         viewState: CharactersDetailsViewState = CharactersDetailsViewState()) {
         self.service = service
         self.router = router
         self.characterId = characterId
+        self.viewState = viewState
     }
 
     func onViewAppear() {
@@ -42,8 +46,7 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
     }
 
     private func loadCharacter() {
-        service
-            .getsCharacter(characterId: characterId)
+        service?.getsCharacter(characterId: characterId)
             .receive(on: DispatchQueue.main)
             .catch { [weak self] error in
                 print("Service error: \(error)")
@@ -66,7 +69,7 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
             }
             .removeDuplicates()
             .compactMap { [weak self] episodes in
-                self?.service.getEpisodes(episodesIds: episodes.map(\.id))
+                self?.service?.getEpisodes(episodesIds: episodes.map(\.id))
             }
             .flatMap { $0 }
             .catch { [weak self] error in
@@ -96,7 +99,7 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
                 }
                 let imageUrl = URL(string: "https://rickandmortyapi.com/api/character/avatar/\(id).jpeg")
                 let resolvedImageUrl = imageUrl.flatMap { [self] url in
-                    self.service.cachedImage(from: url) ?? url
+                    self.service?.cachedImage(from: url) ?? url
                 }
                 return CharactersDetailsViewState.Episode.Character(id: id, url: url, image: resolvedImageUrl )
             }

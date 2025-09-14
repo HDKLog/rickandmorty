@@ -13,17 +13,20 @@ protocol CharactersListViewModeling: ObservableObject {
 
 final class CharactersListViewModel: CharactersListViewModeling {
 
-    @Published var viewState: CharactersListViewState = CharactersListViewState()
+    @Published var viewState: CharactersListViewState
 
-    private let service: CharactersListServicing
+    private let service: CharactersListServicing?
     private let router: CharactersListRouting?
     private var currentPageInfo: CharactersListPage.Info? = nil
     private var nextPage: Int = 1
     private var searchFilter: CharactersListFilter?
 
-    init(service: CharactersListServicing, router: CharactersListRouting? = nil) {
+    init(service: CharactersListServicing? = nil,
+         router: CharactersListRouting? = nil,
+         viewState: CharactersListViewState = CharactersListViewState()) {
         self.service = service
         self.router = router
+        self.viewState = viewState
     }
 
     func onViewAppear() {
@@ -62,9 +65,8 @@ final class CharactersListViewModel: CharactersListViewModeling {
 
     private func loadNextPage() {
         viewState = viewState.withState(newViewState: .loading)
-        service
-            .getsCharactersListPage(page: nextPage, filter: searchFilter)
-            .catch{ [weak self] error in
+        service?.getsCharactersListPage(page: nextPage, filter: searchFilter)
+            .catch { [weak self] error in
                 print("Service error: \(error)")
                 self?.showError(message: error.localizedDescription)
                 return Empty<CharactersListPage, Never>(completeImmediately: true).eraseToAnyPublisher()

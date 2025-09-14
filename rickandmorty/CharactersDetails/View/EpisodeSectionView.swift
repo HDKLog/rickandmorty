@@ -32,21 +32,10 @@ struct EpisodeSectionView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     VStack {
-        EpisodeSectionView(episode: .init(id: 1, 
-                                          name: "Close Rick-counters of the Rick Kind",
-                                          characters: [
-                                            .init(
-                                                id: 1,
-                                                url: URL(string: "https://rickandmortyapi.com/api/character/1")!,
-                                                image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
-                                            ),
-                                            .init(
-                                                id: 2,
-                                                url: URL(string: "https://rickandmortyapi.com/api/character/2")!,
-                                                image: URL(string: "https://rickandmortyapi.com/api/character/avatar/2.jpeg")
-                                            )
-                                          ]))
+        EpisodeSectionView(episode: .mockE1)
     }.border(.black)
 }
+#endif

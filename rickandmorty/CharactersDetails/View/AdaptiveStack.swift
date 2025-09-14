@@ -1,10 +1,3 @@
-//
-//  AddaptiveView.swift
-//  rickandmorty
-//
-//  Created by Gari Sarkisyan on 20.02.24.
-//
-
 import SwiftUI
 
 struct AdaptiveStack<Content: View>: View {
@@ -22,6 +15,7 @@ struct AdaptiveStack<Content: View>: View {
 }
 
 
+#if DEBUG
 #Preview {
     AdaptiveStack {
         Text("Element 1")
@@ -29,3 +23,4 @@ struct AdaptiveStack<Content: View>: View {
         Text("Element 2")
     }
 }
+#endif

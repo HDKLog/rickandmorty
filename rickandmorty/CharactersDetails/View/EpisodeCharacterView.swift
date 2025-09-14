@@ -42,10 +42,6 @@ struct EpisodeCharacterView: View {
 
 #Preview {
     VStack {
-        EpisodeCharacterView(character: .init(
-            id: 1,
-            url: URL(string: "https://rickandmortyapi.com/api/character/1")!,
-            image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
-        ))
+        EpisodeCharacterView(character: .mockRick)
     }.border(.black)
 }

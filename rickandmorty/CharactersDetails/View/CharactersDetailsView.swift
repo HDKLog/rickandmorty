@@ -114,6 +114,19 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
     }
 }
 
-#Preview {
-    CharactersDetailsView(viewModel: CharactersDetailsViewModel(service: Service(), characterId: 1))
+
+#if DEBUG
+#Preview("Loading") {
+    CharactersDetailsView(viewModel: CharactersDetailsViewModel(characterId: 1, viewState: CharactersDetailsViewState().withState(newViewState: .loading)))
 }
+
+#Preview("CharacterLoaded") {
+    CharactersDetailsView(viewModel: CharactersDetailsViewModel(characterId: 1, viewState: CharactersDetailsViewState().withState(newViewState: .characterLoaded(.mockRick))))
+}
+
+#Preview("EpisodesLoaded") {
+    CharactersDetailsView(viewModel: CharactersDetailsViewModel(characterId: 1, viewState: CharactersDetailsViewState()
+        .withState(newViewState: .characterLoaded(.mockRick))
+        .withState(newViewState: .episodesLoaded([.mockE1, .mockE2]))))
+}
+#endif

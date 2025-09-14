@@ -72,3 +72,59 @@ struct CharactersDetailsViewState: Hashable {
         return mutation
     }
 }
+
+#if DEBUG
+
+extension CharactersDetailsViewState.Character {
+    static var mockRick: CharactersDetailsViewState.Character {
+        .init(id: 1,
+              name: "Rick Sanchez",
+              status: "Alive",
+              species: "Human",
+              type: "", gender: "Male",
+              origin: "Earth (C-137)",
+              location: "Citadel of Ricks",
+              image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+              episode: [.mock, .mock])
+    }
+}
+
+extension CharactersDetailsViewState.Character.Episode {
+    static var mock: CharactersDetailsViewState.Character.Episode {
+        .init(id: 1, url: URL(string: "https://rickandmortyapi.com/api/episode/1")!)
+    }
+}
+
+extension CharactersDetailsViewState.Episode.Character {
+    static var mockRick: CharactersDetailsViewState.Episode.Character {
+          .init(
+              id: 1,
+              url: URL(string: "https://rickandmortyapi.com/api/character/1")!,
+              image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
+          )
+    }
+
+    static var mockMorty: CharactersDetailsViewState.Episode.Character {
+        .init(
+              id: 2,
+              url: URL(string: "https://rickandmortyapi.com/api/character/2")!,
+              image: URL(string: "https://rickandmortyapi.com/api/character/avatar/2.jpeg")
+          )
+    }
+}
+
+extension CharactersDetailsViewState.Episode {
+    static var mockE1: CharactersDetailsViewState.Episode {
+        .init(id: 1,
+              name: "Pilot",
+              characters: [.mockRick, .mockMorty])
+    }
+
+    static var mockE2: CharactersDetailsViewState.Episode {
+        .init(id: 2,
+              name: "Lawnmower Dog",
+              characters: [.mockRick, .mockMorty])
+    }
+}
+
+#endif

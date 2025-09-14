@@ -57,7 +57,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
     var cancellables:[AnyCancellable] = []
 
     private func makeSut(service: CharactersDetailsServicing, router: CharactersDetailsRouting? = nil, characterId: Int) -> CharactersDetailsViewModel {
-        CharactersDetailsViewModel(service: service, router: router, characterId: characterId)
+        CharactersDetailsViewModel(characterId: characterId, service: service, router: router)
     }
 
     func test_charactersDetailsViewModel_onViewAppear_loadsCharacterOnce() {
