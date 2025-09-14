@@ -10,7 +10,7 @@ protocol CachingService {
     func cachedImage(from url: URL) -> URL?
 }
 
-class OfflineService: CharactersListServicing, CharactersDetailsServicing {
+class OfflineService: Servicing {
 
     let persistentContainerName = "RickAndMortyDataModel"
     lazy var persistentContainer: NSPersistentContainer = {

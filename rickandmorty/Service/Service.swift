@@ -1,7 +1,14 @@
 import Foundation
 import Combine
 
-final class Service: CharactersListServicing, CharactersDetailsServicing {
+protocol Servicing {
+    func getsCharactersListPage(page: Int, filter: CharactersListFilter?) -> AnyPublisher<CharactersListPage, Error>
+    func getsCharacter(characterId: Int) -> AnyPublisher<CharactersListPage.Character, Error>
+    func getEpisodes(episodesIds: [Int]) -> AnyPublisher<[EpisodesListPage.Episode], Error>
+    func cachedImage(from url: URL) -> URL?
+}
+
+final class Service: Servicing {
 
     let cacher: CachingService?
 

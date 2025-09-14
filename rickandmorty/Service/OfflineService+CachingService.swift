@@ -126,13 +126,11 @@ extension OfflineService: CachingService {
     }
 
     func cachedImage(from url: URL) -> URL? {
+        let fileManager = FileManager.default
         let urlPath = url.pathComponents.joined(separator: "_")
-        guard let fileName = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent(urlPath),
-              FileManager.default.fileExists(atPath: fileName.path())
-        else {
-            return nil
-        }
+        let fileUrl = fileManager.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent(urlPath)
+        guard let fileUrl, fileManager.fileExists(atPath: fileUrl.path()) else { return nil }
 
-        return fileName
+        return fileUrl
     }
 }

@@ -1,26 +1,27 @@
 import Foundation
 
-protocol RouterViewModeling: CharactersListRouting, CharactersDetailsRouting, ObservableObject {
+protocol NavigationRouting {
+    func popLast()
+    func push(endpoint: RouterViewState.NavigationEndpoint)
+}
+
+protocol RouterViewModeling: NavigationRouting, ObservableObject {
     var viewState: RouterViewState { get set }
-    var service: ServiceSelector { get }
 }
 
 class RouterViewModel: RouterViewModeling {
 
     @Published var viewState: RouterViewState = RouterViewState()
 
-    var service: ServiceSelector = ServiceSelector()
-
     init() {
     }
 
-
-
-    public func goBack() {
+    func popLast() {
         viewState.endpoint.removeLast()
     }
-    public func routeToCharacterDetails(id: Int) {
-        viewState.endpoint.append(.charactersDetails(id))
+
+    func push(endpoint: RouterViewState.NavigationEndpoint) {
+        viewState.endpoint.append(endpoint)
     }
 
 }

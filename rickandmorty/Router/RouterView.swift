@@ -1,23 +1,16 @@
 import SwiftUI
 
-struct RouterView<T:RouterViewModeling>: View {
+struct RouterView<T: RouterViewModeling, F: RoutingViewFactoring>: View {
 
     @ObservedObject var viewModel: T
 
+    var viewFactory: F
+
     var body: some View {
         NavigationStack(path:$viewModel.viewState.endpoint) {
-            makeView(for: .list).navigationDestination(for: RouterViewState.NavigationEndpoint.self) { endpoint in
-                makeView(for: endpoint)
+            viewFactory.view(for: .list).navigationDestination(for: RouterViewState.NavigationEndpoint.self) { endpoint in
+                viewFactory.view(for: endpoint)
             }
-        }
-    }
-
-    @ViewBuilder func makeView(for endpoint: RouterViewState.NavigationEndpoint) -> some View {
-        switch endpoint {
-        case .list:
-            CharactersListView(viewModel: CharactersListViewModel(service: viewModel.service, router: viewModel))
-        case .charactersDetails(let id):
-            CharactersDetailsView(viewModel: CharactersDetailsViewModel(characterId: id, service: viewModel.service, router: viewModel))
         }
     }
 }
