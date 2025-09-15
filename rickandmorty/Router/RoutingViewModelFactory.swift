@@ -30,8 +30,7 @@ final class RoutingViewModelFactory: RoutingViewModelFactoring {
     }
     
     func detailsViewModel(characterId: Int) -> CharactersDetailsViewModel {
-        CharactersDetailsViewModel(characterId: characterId,
-                                   service: CharactersDetailsService(service: service),
+        CharactersDetailsViewModel(service: CharactersDetailsService(service: service, characterId: characterId),
                                    router: CharactersDetailsRouter(navigationRouter: navigationRouter))
     }
 }

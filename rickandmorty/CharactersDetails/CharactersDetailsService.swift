@@ -2,7 +2,7 @@ import Foundation
 import Combine
 
 protocol CharactersDetailsServicing {
-    func getsCharacter(characterId: Int) -> AnyPublisher<CharactersListPage.Character, Error>
+    func getsCharacter() -> AnyPublisher<CharactersListPage.Character, Error>
     func getEpisodes(episodesIds: [Int]) -> AnyPublisher<[EpisodesListPage.Episode], Error>
     func cachedImage(from url: URL) -> URL?
 }
@@ -10,12 +10,14 @@ protocol CharactersDetailsServicing {
 final class CharactersDetailsService: CharactersDetailsServicing {
 
     let service: Servicing
+    let characterId: Int
 
-    init(service: Servicing) {
+    init(service: Servicing, characterId: Int) {
         self.service = service
+        self.characterId = characterId
     }
 
-    func getsCharacter(characterId: Int) -> AnyPublisher<CharactersListPage.Character, Error> {
+    func getsCharacter() -> AnyPublisher<CharactersListPage.Character, Error> {
         service.getsCharacter(characterId: characterId)
     }
 

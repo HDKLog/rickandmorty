@@ -10,6 +10,11 @@
 		4E6051F42E77356D002D6232 /* CharactersListFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6051F32E773566002D6232 /* CharactersListFilter.swift */; };
 		4E6051F62E77525F002D6232 /* RoutingViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6051F52E77524E002D6232 /* RoutingViewFactory.swift */; };
 		4E6051F82E7754C1002D6232 /* RoutingViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6051F72E7754AE002D6232 /* RoutingViewModelFactory.swift */; };
+		4E6051FA2E781743002D6232 /* CharactersDetailsRouterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6051F92E781743002D6232 /* CharactersDetailsRouterTest.swift */; };
+		4EF5E3A32E78196F00678F64 /* NavigationRouterMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF5E3A22E78196A00678F64 /* NavigationRouterMock.swift */; };
+		4EF5E3A52E782D1E00678F64 /* CharactersDetailsServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF5E3A42E782D1700678F64 /* CharactersDetailsServiceTest.swift */; };
+		4EF5E3A72E782DB400678F64 /* ServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF5E3A62E782DA800678F64 /* ServiceMock.swift */; };
+		4EF5E3A92E78319400678F64 /* CharactersListPage+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF5E3A82E78318800678F64 /* CharactersListPage+Mocks.swift */; };
 		4EFE89612B7FB58D0094E014 /* rickandmortyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE89602B7FB58D0094E014 /* rickandmortyApp.swift */; };
 		4EFE89652B7FB58E0094E014 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE89642B7FB58E0094E014 /* Assets.xcassets */; };
 		4EFE89682B7FB58E0094E014 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE89672B7FB58E0094E014 /* Preview Assets.xcassets */; };
@@ -57,6 +62,11 @@
 		4E6051F32E773566002D6232 /* CharactersListFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListFilter.swift; sourceTree = "<group>"; };
 		4E6051F52E77524E002D6232 /* RoutingViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingViewFactory.swift; sourceTree = "<group>"; };
 		4E6051F72E7754AE002D6232 /* RoutingViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingViewModelFactory.swift; sourceTree = "<group>"; };
+		4E6051F92E781743002D6232 /* CharactersDetailsRouterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersDetailsRouterTest.swift; sourceTree = "<group>"; };
+		4EF5E3A22E78196A00678F64 /* NavigationRouterMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationRouterMock.swift; sourceTree = "<group>"; };
+		4EF5E3A42E782D1700678F64 /* CharactersDetailsServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersDetailsServiceTest.swift; sourceTree = "<group>"; };
+		4EF5E3A62E782DA800678F64 /* ServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceMock.swift; sourceTree = "<group>"; };
+		4EF5E3A82E78318800678F64 /* CharactersListPage+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CharactersListPage+Mocks.swift"; sourceTree = "<group>"; };
 		4EFE895D2B7FB58D0094E014 /* rickandmorty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rickandmorty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EFE89602B7FB58D0094E014 /* rickandmortyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rickandmortyApp.swift; sourceTree = "<group>"; };
 		4EFE89642B7FB58E0094E014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -110,6 +120,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4EF5E3A12E78195500678F64 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				4EF5E3A62E782DA800678F64 /* ServiceMock.swift */,
+				4EF5E3A22E78196A00678F64 /* NavigationRouterMock.swift */,
+				4EF5E3A82E78318800678F64 /* CharactersListPage+Mocks.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		4EFE89542B7FB58D0094E014 = {
 			isa = PBXGroup;
 			children = (
@@ -136,8 +156,8 @@
 				4EFE89B72B8368400094E014 /* DesignBook.swift */,
 				4EFE898C2B7FB8620094E014 /* CharactersList */,
 				4EFE899E2B8036D50094E014 /* CharactersDetails */,
-				4EFE89602B7FB58D0094E014 /* rickandmortyApp.swift */,
 				4EFE89EE2B84B30B0094E014 /* Router */,
+				4EFE89602B7FB58D0094E014 /* rickandmortyApp.swift */,
 				4EFE89C42B83C5B10094E014 /* View */,
 				4EFE89642B7FB58E0094E014 /* Assets.xcassets */,
 				4EFE89BB2B8389DE0094E014 /* Localizable.xcstrings */,
@@ -157,8 +177,11 @@
 		4EFE89702B7FB58E0094E014 /* rickandmortyTests */ = {
 			isa = PBXGroup;
 			children = (
+				4EF5E3A12E78195500678F64 /* Mock */,
 				4EFE89712B7FB58E0094E014 /* CharactersListViewModelTest.swift */,
 				4EFE89AC2B80C6770094E014 /* CharactersDetailsViewModelTest.swift */,
+				4E6051F92E781743002D6232 /* CharactersDetailsRouterTest.swift */,
+				4EF5E3A42E782D1700678F64 /* CharactersDetailsServiceTest.swift */,
 			);
 			path = rickandmortyTests;
 			sourceTree = "<group>";
@@ -369,8 +392,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EF5E3A32E78196F00678F64 /* NavigationRouterMock.swift in Sources */,
 				4EFE89722B7FB58E0094E014 /* CharactersListViewModelTest.swift in Sources */,
+				4EF5E3A92E78319400678F64 /* CharactersListPage+Mocks.swift in Sources */,
 				4EFE89AD2B80C6770094E014 /* CharactersDetailsViewModelTest.swift in Sources */,
+				4EF5E3A72E782DB400678F64 /* ServiceMock.swift in Sources */,
+				4EF5E3A52E782D1E00678F64 /* CharactersDetailsServiceTest.swift in Sources */,
+				4E6051FA2E781743002D6232 /* CharactersDetailsRouterTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

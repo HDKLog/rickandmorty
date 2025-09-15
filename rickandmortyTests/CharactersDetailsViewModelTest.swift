@@ -8,12 +8,12 @@ final class CharactersDetailsViewModelTest: XCTestCase {
     final class Service: CharactersDetailsServicing {
 
         var getsCharacterCalls: Int = 0
-        var getsCharacterClosure: (Int) ->  AnyPublisher<CharactersListPage.Character, Error> = { _ in
+        var getsCharacterClosure: () ->  AnyPublisher<CharactersListPage.Character, Error> = {
             Empty<CharactersListPage.Character, Error>(completeImmediately: true).eraseToAnyPublisher()
         }
-        func getsCharacter(characterId: Int) -> AnyPublisher<CharactersListPage.Character, Error> {
+        func getsCharacter() -> AnyPublisher<CharactersListPage.Character, Error> {
             getsCharacterCalls += 1
-            return getsCharacterClosure(characterId)
+            return getsCharacterClosure()
         }
 
         var getEpisodesCalls: Int = 0
@@ -56,49 +56,24 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
     var cancellables:[AnyCancellable] = []
 
-    private func makeSut(service: CharactersDetailsServicing, router: CharactersDetailsRouting? = nil, characterId: Int) -> CharactersDetailsViewModel {
-        CharactersDetailsViewModel(characterId: characterId, service: service, router: router)
+    private func makeSut(service: CharactersDetailsServicing, router: CharactersDetailsRouting? = nil) -> CharactersDetailsViewModel {
+        CharactersDetailsViewModel(service: service, router: router)
     }
 
     func test_charactersDetailsViewModel_onViewAppear_loadsCharacterOnce() {
         let service = Service()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
         sut.onViewAppear()
 
         XCTAssertEqual(service.getsCharacterCalls, 1)
     }
 
-    func test_charactersDetailsViewModel_onViewAppear_loadsCharacterWithCorrectId() {
-        let service = Service()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, characterId: characterId)
-
-        var requestedId: Int? = nil
-        service.getsCharacterClosure = {id in
-            requestedId = id
-            return Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
-        }
-
-        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        sut.$viewState.sink { _ in
-            expectation.fulfill()
-        }
-        .store(in: &cancellables)
-
-        sut.onViewAppear()
-        wait(for: [expectation], timeout: 2)
-
-        XCTAssertEqual(requestedId, characterId)
-    }
-
     func test_charactersDetailsViewModel_onViewAppear_setsCharacterDataToViewState() {
         let service = Service()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
-        service.getsCharacterClosure = {_ in
+        service.getsCharacterClosure = {
             Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -116,10 +91,9 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
     func test_charactersDetailsViewModel_onViewAppear_setsCorrectViewState() {
         let service = Service()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
-        service.getsCharacterClosure = {_ in
+        service.getsCharacterClosure = {
             Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -139,14 +113,13 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
         let error = NSError(domain: "Error", code: -1)
         let service = Service()
-        let characterId: Int = 0
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharacterClosure = { _ in
+        service.getsCharacterClosure = {
             Fail<CharactersListPage.Character, Error>(error: error).eraseToAnyPublisher()
         }
 
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
         sut.$viewState.dropFirst().sink {_ in
             expectation.fulfill()
@@ -161,10 +134,9 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
     func test_charactersDetailsViewModel_onViewAppear_loadsEpisodesOnce() {
         let service = Service()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
-        service.getsCharacterClosure = {_ in
+        service.getsCharacterClosure = {
             Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -186,10 +158,9 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
     func test_charactersDetailsViewModel_onViewAppear_setsEpisodesDataToViewState() {
         let service = Service()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
-        service.getsCharacterClosure = {_ in
+        service.getsCharacterClosure = {
             Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -212,10 +183,9 @@ final class CharactersDetailsViewModelTest: XCTestCase {
     func test_charactersDetailsViewModel_onViewAppear_whenLoadsEpisodes_requestCachedCharactersImagesOnce() {
         let service = Service()
         let episode = EpisodesListPage.mock.results.first!
-        let characterId: Int = 0
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
-        service.getsCharacterClosure = {_ in
+        service.getsCharacterClosure = {
             Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -239,10 +209,9 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let service = Service()
         let episode = EpisodesListPage.mock.results.first!
         let cachedEpisodeCharacterUrl = URL(string: "google.com")
-        let characterId: Int = 0
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
-        service.getsCharacterClosure = {_ in
+        service.getsCharacterClosure = {
             Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -268,10 +237,9 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
     func test_charactersDetailsViewModel_onViewAppear_whenEpisodesLoaded_setsCorrectViewState() {
         let service = Service()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
-        service.getsCharacterClosure = {_ in
+        service.getsCharacterClosure = {
             Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -295,10 +263,9 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
         let error = NSError(domain: "Error", code: -1)
         let service = Service()
-        let characterId: Int = 0
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharacterClosure = {_ in
+        service.getsCharacterClosure = {
             Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
@@ -306,7 +273,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
             Fail<[EpisodesListPage.Episode], Error>(error: error).eraseToAnyPublisher()
         }
 
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
         sut.$viewState.dropFirst(2).sink {_ in
             expectation.fulfill()
@@ -323,8 +290,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let tapedCharacterId = 1
         let service = Service()
         let router = Router()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, router: router, characterId: characterId)
+        let sut = makeSut(service: service, router: router)
 
         sut.onCharacterTap(id: tapedCharacterId)
 
@@ -335,8 +301,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let tapedCharacterId = 1
         let service = Service()
         let router = Router()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, router: router, characterId: characterId)
+        let sut = makeSut(service: service, router: router)
 
         var navigateToId: Int?
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
@@ -355,8 +320,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
     func test_charactersDetailsViewModel_onGoBack_navigatesBackOnce() {
         let service = Service()
         let router = Router()
-        let characterId: Int = 0
-        let sut = makeSut(service: service, router: router, characterId: characterId)
+        let sut = makeSut(service: service, router: router)
 
         sut.onGoBack()
 
@@ -367,14 +331,13 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
         let error = NSError(domain: "Error", code: -1)
         let service = Service()
-        let characterId: Int = 0
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharacterClosure = { _ in
+        service.getsCharacterClosure = {
             Fail<CharactersListPage.Character, Error>(error: error).eraseToAnyPublisher()
         }
 
-        let sut = makeSut(service: service, characterId: characterId)
+        let sut = makeSut(service: service)
 
         sut.$viewState.dropFirst().sink {_ in
             expectation.fulfill()

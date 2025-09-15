@@ -117,15 +117,15 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
 
 #if DEBUG
 #Preview("Loading") {
-    CharactersDetailsView(viewModel: CharactersDetailsViewModel(characterId: 1, viewState: CharactersDetailsViewState().withState(newViewState: .loading)))
+    CharactersDetailsView(viewModel: CharactersDetailsViewModel(viewState: CharactersDetailsViewState().withState(newViewState: .loading)))
 }
 
 #Preview("CharacterLoaded") {
-    CharactersDetailsView(viewModel: CharactersDetailsViewModel(characterId: 1, viewState: CharactersDetailsViewState().withState(newViewState: .characterLoaded(.mockRick))))
+    CharactersDetailsView(viewModel: CharactersDetailsViewModel(viewState: CharactersDetailsViewState().withState(newViewState: .characterLoaded(.mockRick))))
 }
 
 #Preview("EpisodesLoaded") {
-    CharactersDetailsView(viewModel: CharactersDetailsViewModel(characterId: 1, viewState: CharactersDetailsViewState()
+    CharactersDetailsView(viewModel: CharactersDetailsViewModel(viewState: CharactersDetailsViewState()
         .withState(newViewState: .characterLoaded(.mockRick))
         .withState(newViewState: .episodesLoaded([.mockE1, .mockE2]))))
 }

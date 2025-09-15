@@ -16,15 +16,12 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
 
     private let service: CharactersDetailsServicing?
     private let router: CharactersDetailsRouting?
-    private let characterId: Int
 
-    init(characterId: Int,
-         service: CharactersDetailsServicing? = nil,
+    init(service: CharactersDetailsServicing? = nil,
          router: CharactersDetailsRouting? = nil,
          viewState: CharactersDetailsViewState = CharactersDetailsViewState()) {
         self.service = service
         self.router = router
-        self.characterId = characterId
         self.viewState = viewState
     }
 
@@ -46,7 +43,7 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
     }
 
     private func loadCharacter() {
-        service?.getsCharacter(characterId: characterId)
+        service?.getsCharacter()
             .receive(on: DispatchQueue.main)
             .catch { [weak self] error in
                 print("Service error: \(error)")

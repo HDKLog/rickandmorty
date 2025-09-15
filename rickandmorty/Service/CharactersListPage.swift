@@ -1,15 +1,15 @@
 import Foundation
 
-public struct CharactersListPage: Codable {
-    struct Info: Codable {
+public struct CharactersListPage: Codable, Equatable {
+    struct Info: Codable, Equatable {
         let count: Int
         let pages: Int
         let next: String?
         let prev: String?
     }
 
-    struct Character: Codable {
-        struct Location: Codable {
+    struct Character: Codable, Equatable {
+        struct Location: Codable, Equatable {
             let name: String
             let url: String
         }

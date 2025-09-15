@@ -7,16 +7,16 @@ protocol CharactersDetailsRouting {
 
 final class CharactersDetailsRouter: CharactersDetailsRouting {
 
-    let navigationRouter: NavigationRouting
+    private let navigationRouter: NavigationRouting?
 
-    init(navigationRouter: NavigationRouting) {
+    init(navigationRouter: NavigationRouting?) {
         self.navigationRouter = navigationRouter
     }
 
     func goBack() {
-        navigationRouter.popLast()
+        navigationRouter?.popLast()
     }
     func routeToCharacterDetails(id: Int) {
-        navigationRouter.push(endpoint: .charactersDetails(id))
+        navigationRouter?.push(endpoint: .charactersDetails(id))
     }
 }
