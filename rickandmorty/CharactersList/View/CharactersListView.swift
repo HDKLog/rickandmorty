@@ -19,14 +19,10 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
                 }
             }
         }
-        .alert(DesignBook.Text.CharactersList.Error.dialogName,
-               isPresented: $viewModel.viewState.showError) {
-            VStack {
-                Text(viewModel.viewState.errorMessage)
-                Button(action: viewModel.onErrorDismiss) {
-                    Text(DesignBook.Text.CharactersList.Error.dialogButtonName)
-                }
-            }
+        .alert(item: $viewModel.viewState.error) { error in
+            Alert(title: Text(error.title),
+                  message: Text(error.message),
+                  dismissButton: .cancel(Text(DesignBook.Text.CharactersList.Error.dialogButtonName)))
         }
         .background(DesignBook.Design.Color.Background.list.swiftUIColor())
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -37,6 +33,7 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
         
     }
 
+    @ViewBuilder
     var header: some View {
         HStack {
             VStack {
@@ -77,6 +74,7 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
         }
     }
 
+    @ViewBuilder
     var footer: some View {
         VStack {
             HStack(alignment: .center) {
@@ -101,6 +99,6 @@ struct CharactersListView<T: CharactersListViewModeling>: View {
 }
 
 #Preview("Error") {
-    CharactersListView(viewModel: CharactersListViewModel(viewState: CharactersListViewState().withState(newViewState: .error("Error"))))
+    CharactersListView(viewModel: CharactersListViewModel(viewState: CharactersListViewState().withState(newViewState: .error("Error descrybing text"))))
 }
 #endif

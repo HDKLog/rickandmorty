@@ -6,7 +6,12 @@ struct CharactersListViewState: Hashable {
         case loading
         case loaded([Character])
         case error(String)
-        case dismissError
+    }
+
+    struct Error: Hashable, Identifiable {
+        var id: String { message }
+        let title: String = DesignBook.Text.CharactersList.Error.dialogName
+        let message: String
     }
     struct Character: Identifiable, Equatable, Hashable {
         enum Status: String {
@@ -52,8 +57,7 @@ struct CharactersListViewState: Hashable {
                                                  DesignBook.Text.CharactersList.Search.genderPickFemale:.female,
                                                  DesignBook.Text.CharactersList.Search.genderPickGenderless: .genderless,
                                                  DesignBook.Text.CharactersList.Search.genderPickUnknown:.unknown]
-    var showError: Bool = false
-    var errorMessage: String = ""
+    var error: Error?
 
     mutating func setViewState(newViewState: ViewState) {
         viewState = newViewState
@@ -66,10 +70,7 @@ struct CharactersListViewState: Hashable {
         case .loaded(let newCharacters):
             characters.append(contentsOf: newCharacters)
         case .error(let errorMessage):
-            self.errorMessage = errorMessage
-            self.showError = true
-        case .dismissError:
-            self.showError = false
+            self.error = Error(message: errorMessage)
         }
     }
 

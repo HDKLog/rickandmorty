@@ -26,8 +26,7 @@ extension CharactersListPage.Character {
                                                                    url: "https://rickandmortyapi.com/api/location/3"),
                                       image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
                                       episode: ["https://rickandmortyapi.com/api/episode/1",
-                                                "https://rickandmortyapi.com/api/episode/2",
-                                                "https://rickandmortyapi.com/api/episode/3"],
+                                                "https://rickandmortyapi.com/api/episode/2"],
                                       url: "https://rickandmortyapi.com/api/character/1",
                                       created: "2017-11-04T18:48:46.250Z")
     }
@@ -44,8 +43,7 @@ extension CharactersListPage.Character {
                                                                                      url: "https://rickandmortyapi.com/api/location/3"),
                                      image: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
                                      episode: ["https://rickandmortyapi.com/api/episode/1",
-                                               "https://rickandmortyapi.com/api/episode/2",
-                                               "https://rickandmortyapi.com/api/episode/3" ],
+                                               "https://rickandmortyapi.com/api/episode/2"],
                                      url: "https://rickandmortyapi.com/api/character/2",
                                      created: "2017-11-04T18:50:21.651Z")
     }
