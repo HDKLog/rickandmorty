@@ -85,22 +85,18 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
             }
             .padding(DesignBook.Design.Padding.extraLarge)
         }
-        .alert(DesignBook.Text.CharactersList.Error.dialogName,
-               isPresented: $viewModel.viewState.showError) {
-            VStack {
-                Text(viewModel.viewState.errorMessage)
-                Button(action: viewModel.onErrorDismiss) {
-                    Text(DesignBook.Text.CharactersList.Error.dialogButtonName)
-                }
-            }
+        .alert(item: $viewModel.viewState.error) { error in
+            Alert(title: Text(error.title),
+                  message: Text(error.message),
+                  dismissButton: .cancel(Text(DesignBook.Text.CharactersList.Error.dialogButtonName)))
         }
-               .scrollIndicators(.hidden)
-               .listStyle(.plain)
-               .navigationBarTitle(DesignBook.Text.CharactersDetails.Navigation.title)
-               .navigationBarTitleDisplayMode(.inline)
-               .navigationBarBackButtonHidden()
-               .navigationBarItems(leading: btnBack)
-               .onAppear(perform:viewModel.onViewAppear)
+        .scrollIndicators(.hidden)
+        .listStyle(.plain)
+        .navigationBarTitle(DesignBook.Text.CharactersDetails.Navigation.title)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .navigationBarItems(leading: btnBack)
+        .onAppear(perform:viewModel.onViewAppear)
     }
 
     var btnBack : some View {
@@ -121,7 +117,8 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
 }
 
 #Preview("CharacterLoaded") {
-    CharactersDetailsView(viewModel: CharactersDetailsViewModel(viewState: CharactersDetailsViewState().withState(newViewState: .characterLoaded(.mockRick))))
+    CharactersDetailsView(viewModel: CharactersDetailsViewModel(viewState: CharactersDetailsViewState()
+        .withState(newViewState: .characterLoaded(.mockRick))))
 }
 
 #Preview("EpisodesLoaded") {
@@ -129,4 +126,11 @@ struct CharactersDetailsView<T: CharactersDetailsViewModeling>: View {
         .withState(newViewState: .characterLoaded(.mockRick))
         .withState(newViewState: .episodesLoaded([.mockE1, .mockE2]))))
 }
+
+#Preview("Error") {
+    CharactersDetailsView(viewModel: CharactersDetailsViewModel(viewState: CharactersDetailsViewState()
+        .withState(newViewState: .characterLoaded(.mockRick))
+        .withState(newViewState: .error("Error descrybing text"))))
+}
+
 #endif

@@ -7,7 +7,12 @@ struct CharactersDetailsViewState: Hashable {
         case characterLoaded(Character)
         case episodesLoaded([Episode])
         case error(String)
-        case dismissError
+    }
+
+    struct Error: Hashable, Identifiable {
+        var id: String { message }
+        let title: String = DesignBook.Text.CharactersList.Error.dialogName
+        let message: String
     }
 
     struct Character: Identifiable, Equatable, Hashable {
@@ -44,8 +49,7 @@ struct CharactersDetailsViewState: Hashable {
     var character: Character = .init(id: 0, name: "", status: "", species: "", type: "", gender: "", origin: "", location: "", image: "", episode: [])
     var episodes: [Episode] = []
 
-    var showError: Bool = false
-    var errorMessage: String = ""
+    var error: Error?
 
     mutating func setnewViewState(newViewState: ViewState) {
         viewState = newViewState
@@ -59,10 +63,7 @@ struct CharactersDetailsViewState: Hashable {
         case .episodesLoaded(let episodes):
             self.episodes = episodes
         case .error(let errorMessage):
-            self.errorMessage = errorMessage
-            self.showError = true
-        case .dismissError:
-            self.showError = false
+            self.error = Error(message: errorMessage)
         }
     }
 
@@ -85,13 +86,17 @@ extension CharactersDetailsViewState.Character {
               origin: "Earth (C-137)",
               location: "Citadel of Ricks",
               image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-              episode: [.mock, .mock])
+              episode: [.mockE1, .mockE2])
     }
 }
 
 extension CharactersDetailsViewState.Character.Episode {
-    static var mock: CharactersDetailsViewState.Character.Episode {
+    static var mockE1: CharactersDetailsViewState.Character.Episode {
         .init(id: 1, url: URL(string: "https://rickandmortyapi.com/api/episode/1")!)
+    }
+
+    static var mockE2: CharactersDetailsViewState.Character.Episode {
+        .init(id: 2, url: URL(string: "https://rickandmortyapi.com/api/episode/2")!)
     }
 }
 

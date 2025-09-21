@@ -7,7 +7,6 @@ protocol CharactersDetailsViewModeling: ObservableObject {
     func onViewAppear()
     func onGoBack()
     func onCharacterTap(id: Int)
-    func onErrorDismiss()
 }
 
 final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
@@ -36,10 +35,6 @@ final class CharactersDetailsViewModel: CharactersDetailsViewModeling {
 
     public func onCharacterTap(id: Int) {
         router?.routeToCharacterDetails(id: id)
-    }
-
-    func onErrorDismiss() {
-        viewState = viewState.withState(newViewState: .dismissError)
     }
 
     private func loadCharacter() {

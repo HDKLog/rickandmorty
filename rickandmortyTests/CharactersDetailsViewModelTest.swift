@@ -74,7 +74,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let sut = makeSut(service: service)
 
         service.getsCharacterClosure = {
-            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+            Just(CharactersListPage.Character.mockRick).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
@@ -86,7 +86,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         sut.onViewAppear()
         wait(for: [expectation], timeout: 2)
 
-        XCTAssertEqual(sut.viewState.character, .mock)
+        XCTAssertEqual(sut.viewState.character, .mockRick)
     }
 
     func test_charactersDetailsViewModel_onViewAppear_setsCorrectViewState() {
@@ -94,7 +94,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let sut = makeSut(service: service)
 
         service.getsCharacterClosure = {
-            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+            Just(CharactersListPage.Character.mockRick).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
@@ -106,7 +106,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         sut.onViewAppear()
         wait(for: [expectation], timeout: 2)
 
-        XCTAssertEqual(sut.viewState.viewState, .characterLoaded(.mock))
+        XCTAssertEqual(sut.viewState.viewState, .characterLoaded(.mockRick))
     }
 
     func test_charactersDetailsViewModel_onViewAppear_whenCharacterLoadingErrorOccurs_setsErrorInViewState() {
@@ -137,7 +137,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let sut = makeSut(service: service)
 
         service.getsCharacterClosure = {
-            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+            Just(CharactersListPage.Character.mockRick).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         service.getEpisodesClosure = {_ in
@@ -161,7 +161,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let sut = makeSut(service: service)
 
         service.getsCharacterClosure = {
-            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+            Just(CharactersListPage.Character.mockRick).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         service.getEpisodesClosure = {_ in
@@ -177,7 +177,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         sut.onViewAppear()
         wait(for: [expectation], timeout: 2)
 
-        XCTAssertEqual(sut.viewState.episodes, CharactersDetailsViewState.Episode.mocks)
+        XCTAssertEqual(sut.viewState.episodes, [.mockE1, .mockE2])
     }
 
     func test_charactersDetailsViewModel_onViewAppear_whenLoadsEpisodes_requestCachedCharactersImagesOnce() {
@@ -186,7 +186,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let sut = makeSut(service: service)
 
         service.getsCharacterClosure = {
-            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+            Just(CharactersListPage.Character.mockRick).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         service.getEpisodesClosure = {_ in
@@ -212,7 +212,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let sut = makeSut(service: service)
 
         service.getsCharacterClosure = {
-            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+            Just(CharactersListPage.Character.mockRick).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         service.getEpisodesClosure = {_ in
@@ -240,7 +240,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         let sut = makeSut(service: service)
 
         service.getsCharacterClosure = {
-            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+            Just(CharactersListPage.Character.mockRick).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         service.getEpisodesClosure = {_ in
@@ -256,7 +256,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         sut.onViewAppear()
         wait(for: [expectation], timeout: 2)
 
-        XCTAssertEqual(sut.viewState.viewState, .episodesLoaded(CharactersDetailsViewState.Episode.mocks))
+        XCTAssertEqual(sut.viewState.viewState, .episodesLoaded([.mockE1, .mockE2]))
     }
 
     func test_charactersDetailsViewModel_onViewAppear_whenEpisodesLoadingErrorOccurs_setsErrorInViewState() {
@@ -266,7 +266,7 @@ final class CharactersDetailsViewModelTest: XCTestCase {
 
         let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
         service.getsCharacterClosure = {
-            Just(CharactersListPage.Character.mock).setFailureType(to: Error.self).eraseToAnyPublisher()
+            Just(CharactersListPage.Character.mockRick).setFailureType(to: Error.self).eraseToAnyPublisher()
         }
 
         service.getEpisodesClosure = {_ in
@@ -325,115 +325,5 @@ final class CharactersDetailsViewModelTest: XCTestCase {
         sut.onGoBack()
 
         XCTAssertEqual(router.goBackCalls, 1)
-    }
-
-    func test_charactersDetailsViewModel_onErrorDismiss_dismissErrorInViewState() {
-
-        let error = NSError(domain: "Error", code: -1)
-        let service = Service()
-
-        let expectation = XCTestExpectation(description: "\(#file) \(#function) \(#line)")
-        service.getsCharacterClosure = {
-            Fail<CharactersListPage.Character, Error>(error: error).eraseToAnyPublisher()
-        }
-
-        let sut = makeSut(service: service)
-
-        sut.$viewState.dropFirst().sink {_ in
-            expectation.fulfill()
-        }
-        .store(in: &cancellables)
-
-        sut.onViewAppear()
-        sut.onErrorDismiss()
-        wait(for: [expectation], timeout:2)
-
-        XCTAssertEqual(sut.viewState.viewState, .dismissError)
-    }
-}
-
-extension CharactersListPage.Character {
-    static var mock: CharactersListPage.Character {
-        CharactersListPage.Character(id: 1,
-                                     name: "Rick Sanchez",
-                                     status: "Alive",
-                                     species: "Human",
-                                     type: "",
-                                     gender: "Male",
-                                     origin: CharactersListPage.Character.Location(name: "Earth (C-137)",
-                                                                                   url: "https://rickandmortyapi.com/api/location/1"),
-                                     location: CharactersListPage.Character.Location(name: "Citadel of Ricks",
-                                                                                     url: "https://rickandmortyapi.com/api/location/3"),
-                                     image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-                                     episode: ["https://rickandmortyapi.com/api/episode/1",
-                                               "https://rickandmortyapi.com/api/episode/2",
-                                               "https://rickandmortyapi.com/api/episode/3"],
-                                     url: "https://rickandmortyapi.com/api/character/1",
-                                     created: "2017-11-04T18:48:46.250Z")
-    }
-}
-
-extension EpisodesListPage {
-    static var mock: EpisodesListPage {
-        EpisodesListPage(info: Info(count: 1, pages: 1, next: nil, prev: nil),
-                         results: [Episode(id: 1, name: "Pilot", air_date: "December 2, 2013", episode: "S01E01",
-                                           characters: ["https://rickandmortyapi.com/api/character/1",
-                                                        "https://rickandmortyapi.com/api/character/2"],
-                                           url: "https://rickandmortyapi.com/api/episode/1", created: "2017-11-10T12:56:33.798Z"),
-                                   Episode(id: 2, name: "Lawnmower Dog", air_date: "December 9, 2013", episode: "S01E02",
-                                                     characters: ["https://rickandmortyapi.com/api/character/1",
-                                                                  "https://rickandmortyapi.com/api/character/2"],
-                                           url: "https://rickandmortyapi.com/api/episode/2", created: "2017-11-10T12:56:33.916Z"),
-                                   Episode(id: 3, name: "Anatomy Park", air_date: "December 16, 2013", episode: "S01E03",
-                                                     characters: ["https://rickandmortyapi.com/api/character/1",
-                                                                  "https://rickandmortyapi.com/api/character/2"],
-                                           url: "https://rickandmortyapi.com/api/episode/3",
-                                           created: "2017-11-10T12:56:34.022Z")])
-    }
-}
-
-extension CharactersDetailsViewState.Character {
-    static var mock: CharactersDetailsViewState.Character {
-        CharactersDetailsViewState.Character(id: 1,
-                                     name: "Rick Sanchez",
-                                     status: "Alive",
-                                     species: "Human",
-                                     type: "",
-                                     gender: "Male",
-                                     origin: "Earth (C-137)",
-                                     location: "Citadel of Ricks",
-                                     image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-                                             episode: [ .init(id: 1, url: URL(string: "https://rickandmortyapi.com/api/episode/1")!),
-                                                        .init(id: 2, url: URL(string: "https://rickandmortyapi.com/api/episode/2")!),
-                                                        .init(id: 3, url: URL(string: "https://rickandmortyapi.com/api/episode/3")!)])
-    }
-}
-
-extension CharactersDetailsViewState.Episode {
-    static var mocks: [CharactersDetailsViewState.Episode] {
-        [CharactersDetailsViewState.Episode(id: 1, name: "Pilot", characters: [
-            CharactersDetailsViewState.Episode.Character(id: 1,
-                      url: URL(string: "https://rickandmortyapi.com/api/character/1")!,
-                      image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")),
-            CharactersDetailsViewState.Episode.Character(id: 2,
-                      url: URL(string: "https://rickandmortyapi.com/api/character/2")!,
-                      image: URL(string: "https://rickandmortyapi.com/api/character/avatar/2.jpeg"))
-        ]),
-         CharactersDetailsViewState.Episode(id: 2, name: "Lawnmower Dog", characters: [
-            CharactersDetailsViewState.Episode.Character(id: 1,
-                       url: URL(string: "https://rickandmortyapi.com/api/character/1")!,
-                       image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")),
-            CharactersDetailsViewState.Episode.Character(id: 2,
-                       url: URL(string: "https://rickandmortyapi.com/api/character/2")!,
-                       image: URL(string: "https://rickandmortyapi.com/api/character/avatar/2.jpeg"))
-         ]),
-         CharactersDetailsViewState.Episode(id: 3, name: "Anatomy Park", characters: [
-            CharactersDetailsViewState.Episode.Character(id: 1,
-                       url: URL(string: "https://rickandmortyapi.com/api/character/1")!,
-                       image: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")),
-             Character(id: 2,
-                       url: URL(string: "https://rickandmortyapi.com/api/character/2")!,
-                       image: URL(string: "https://rickandmortyapi.com/api/character/avatar/2.jpeg"))
-         ])]
     }
 }
